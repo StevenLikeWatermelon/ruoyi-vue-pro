@@ -14,6 +14,10 @@ import cn.iocoder.yudao.framework.excel.core.convert.DictConvert;
 @ExcelIgnoreUnannotated
 public class BuildingBedRespVO {
 
+    @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "24549")
+    @ExcelProperty("编号")
+    private Long id;
+
     @Schema(description = "名字", requiredMode = Schema.RequiredMode.REQUIRED, example = "王五")
     @ExcelProperty("名字")
     private String name;
