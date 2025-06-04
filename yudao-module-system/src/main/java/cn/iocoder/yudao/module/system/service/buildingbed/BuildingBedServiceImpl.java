@@ -36,8 +36,6 @@ public class BuildingBedServiceImpl implements BuildingBedService {
     public Long createBuildingBed(BuildingBedSaveReqVO createReqVO) {
         // 校验编号的有效性
         validateParentBuildingBed(null, createReqVO.getId());
-        // 校验名字的唯一性
-        validateBuildingBedNameUnique(null, createReqVO.getId(), createReqVO.getName());
 
         // 插入
         BuildingBedDO buildingBed = BeanUtils.toBean(createReqVO, BuildingBedDO.class);
@@ -51,9 +49,7 @@ public class BuildingBedServiceImpl implements BuildingBedService {
         // 校验存在
         validateBuildingBedExists(updateReqVO.getId());
         // 校验编号的有效性
-        validateParentBuildingBed(updateReqVO.getId(), updateReqVO.getId());
-        // 校验名字的唯一性
-        validateBuildingBedNameUnique(updateReqVO.getId(), updateReqVO.getId(), updateReqVO.getName());
+        validateParentBuildingBed(updateReqVO.getParentId(), updateReqVO.getId());
 
         // 更新
         BuildingBedDO updateObj = BeanUtils.toBean(updateReqVO, BuildingBedDO.class);
@@ -79,16 +75,16 @@ public class BuildingBedServiceImpl implements BuildingBedService {
         }
     }
 
-    private void validateParentBuildingBed(Long id, Long id) {
-        if (id == null || BuildingBedDO.ID_ROOT.equals(id)) {
+    private void validateParentBuildingBed(Long parentId, Long id) {
+        if (parentId == null || BuildingBedDO.ID_ROOT.equals(parentId)) {
             return;
         }
         // 1. 不能设置自己为父楼层床位
-        if (Objects.equals(id, id)) {
+        if (Objects.equals(parentId, id)) {
             throw exception(BUILDING_BED_PARENT_ERROR);
         }
         // 2. 父楼层床位不存在
-        BuildingBedDO parentBuildingBed = buildingBedMapper.selectById(id);
+        BuildingBedDO parentBuildingBed = buildingBedMapper.selectById(parentId);
         if (parentBuildingBed == null) {
             throw exception(BUILDING_BED_PARENT_NOT_EXITS);
         }
@@ -98,32 +94,18 @@ public class BuildingBedServiceImpl implements BuildingBedService {
         }
         for (int i = 0; i < Short.MAX_VALUE; i++) {
             // 3.1 校验环路
-            id = parentBuildingBed.getId();
-            if (Objects.equals(id, id)) {
+            parentId = parentBuildingBed.getId();
+            if (Objects.equals(parentId, id)) {
                 throw exception(BUILDING_BED_PARENT_IS_CHILD);
             }
             // 3.2 继续递归下一级父楼层床位
-            if (id == null || BuildingBedDO.ID_ROOT.equals(id)) {
+            if (parentId == null || BuildingBedDO.ID_ROOT.equals(parentId)) {
                 break;
             }
-            parentBuildingBed = buildingBedMapper.selectById(id);
+            parentBuildingBed = buildingBedMapper.selectById(parentId);
             if (parentBuildingBed == null) {
                 break;
             }
-        }
-    }
-
-    private void validateBuildingBedNameUnique(Long id, Long id, String name) {
-        BuildingBedDO buildingBed = buildingBedMapper.selectByIdAndName(id, name);
-        if (buildingBed == null) {
-            return;
-        }
-        // 如果 id 为空，说明不用比较是否为相同 id 的楼层床位
-        if (id == null) {
-            throw exception(BUILDING_BED_NAME_DUPLICATE);
-        }
-        if (!Objects.equals(buildingBed.getId(), id)) {
-            throw exception(BUILDING_BED_NAME_DUPLICATE);
         }
     }
 
