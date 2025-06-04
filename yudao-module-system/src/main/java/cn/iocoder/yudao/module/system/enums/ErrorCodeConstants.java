@@ -176,4 +176,7 @@ public interface ErrorCodeConstants {
     ErrorCode BUILDING_BED_NAME_DUPLICATE = new ErrorCode(1_002_029_004, "已经存在该名字的楼层床位");
     ErrorCode BUILDING_BED_PARENT_IS_CHILD = new ErrorCode(1_002_029_005, "不能设置自己的子BuildingBed为父BuildingBed");
 
+    // ========== 基础费用管理 1_002_030_000 ==========
+    ErrorCode MONEY_MANAGE_NOT_EXISTS = new ErrorCode(1_002_030_000, "基础费用管理不存在");
+
 }
