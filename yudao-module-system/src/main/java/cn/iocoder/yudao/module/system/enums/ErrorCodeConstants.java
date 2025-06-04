@@ -168,4 +168,12 @@ public interface ErrorCodeConstants {
     // ========== 站内信发送 1-002-028-000 ==========
     ErrorCode NOTIFY_SEND_TEMPLATE_PARAM_MISS = new ErrorCode(1_002_028_000, "模板参数({})缺失");
 
+    // ========== 楼层床位 1_002_029-000 ==========
+    ErrorCode BUILDING_BED_NOT_EXISTS = new ErrorCode(1_002_029_000, "楼层床位不存在");
+    ErrorCode BUILDING_BED_EXITS_CHILDREN = new ErrorCode(1_002_029_001, "存在存在子楼层床位，无法删除");
+    ErrorCode BUILDING_BED_PARENT_NOT_EXITS = new ErrorCode(1_002_029_002,"父级楼层床位不存在");
+    ErrorCode BUILDING_BED_PARENT_ERROR = new ErrorCode(1_002_029_003, "不能设置自己为父楼层床位");
+    ErrorCode BUILDING_BED_NAME_DUPLICATE = new ErrorCode(1_002_029_004, "已经存在该名字的楼层床位");
+    ErrorCode BUILDING_BED_PARENT_IS_CHILD = new ErrorCode(1_002_029_005, "不能设置自己的子BuildingBed为父BuildingBed");
+
 }
