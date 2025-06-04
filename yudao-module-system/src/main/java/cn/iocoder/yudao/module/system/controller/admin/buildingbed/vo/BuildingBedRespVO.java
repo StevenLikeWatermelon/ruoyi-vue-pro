@@ -109,6 +109,10 @@ public class BuildingBedRespVO {
     @ExcelProperty("床位价格")
     private String bedPrice;
 
+    @Schema(description = "父级id链条")
+    @ExcelProperty("父级id链条")
+    private String parentIdChian;
+
     @Schema(description = "床位类型", example = "1")
     @ExcelProperty(value = "床位类型", converter = DictConvert.class)
     @DictFormat("bed_type") // TODO 代码优化：建议设置到对应的 DictTypeConstants 枚举类中

@@ -133,6 +133,11 @@ public class BuildingBedDO extends BaseDO {
      * 枚举 {@link TODO bed_type 对应的类}
      */
     private String bedType;
+    /**
+     * 父级id链条
+
+     */
+    private String parentIdChian;
 
 
 }

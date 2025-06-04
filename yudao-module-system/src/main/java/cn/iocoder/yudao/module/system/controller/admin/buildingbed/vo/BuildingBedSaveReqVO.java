@@ -80,4 +80,7 @@ public class BuildingBedSaveReqVO {
     @Schema(description = "床位类型", example = "1")
     private String bedType;
 
+    @Schema(description = "父级id链条")
+    private String parentIdChian;
+
 }
