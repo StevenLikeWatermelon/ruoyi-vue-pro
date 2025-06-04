@@ -178,5 +178,8 @@ public interface ErrorCodeConstants {
 
     // ========== 基础费用管理 1_002_030_000 ==========
     ErrorCode MONEY_MANAGE_NOT_EXISTS = new ErrorCode(1_002_030_000, "基础费用管理不存在");
+    // ========== 特殊服务项目 1_002_031_000 ==========
+    ErrorCode SPECIAL_NOT_EXISTS = new ErrorCode(1_002_031_000, "特殊服务类别不存在");
+    ErrorCode SPECIAL_ITEM_NOT_EXISTS = new ErrorCode(1_002_031_001, "特殊服务项目不存在");
 
 }
