@@ -14,31 +14,27 @@ import cn.iocoder.yudao.framework.excel.core.convert.DictConvert;
 @ExcelIgnoreUnannotated
 public class BuildingBedRespVO {
 
-    @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "26069")
-    @ExcelProperty("编号")
-    private Long id;
-
     @Schema(description = "名字", requiredMode = Schema.RequiredMode.REQUIRED, example = "王五")
     @ExcelProperty("名字")
     private String name;
 
-    @Schema(description = "父级信息", requiredMode = Schema.RequiredMode.REQUIRED, example = "30220")
-    @ExcelProperty("父级信息")
+    @Schema(description = "父级编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "18050")
+    @ExcelProperty("父级编号")
     private Long parentId;
 
     @Schema(description = "楼栋图片")
     @ExcelProperty("楼栋图片")
     private String buildingImage;
 
-    @Schema(description = "室内定位楼栋ID", example = "15670")
+    @Schema(description = "室内定位楼栋ID", example = "2349")
     @ExcelProperty("室内定位楼栋ID")
     private String buildingId;
 
-    @Schema(description = "室内吸顶定位信标", example = "15902")
+    @Schema(description = "室内吸顶定位信标", example = "31390")
     @ExcelProperty("室内吸顶定位信标")
     private String beaconId;
 
-    @Schema(description = "地面防水定位信标", example = "22415")
+    @Schema(description = "地面防水定位信标", example = "30655")
     @ExcelProperty("地面防水定位信标")
     private String waterproofBeaconId;
 
@@ -50,7 +46,7 @@ public class BuildingBedRespVO {
     @ExcelProperty("Y轴长度")
     private String floorWidth;
 
-    @Schema(description = "楼层ID", example = "29802")
+    @Schema(description = "楼层ID", example = "15470")
     @ExcelProperty("楼层ID")
     private String floorId;
 
@@ -101,26 +97,18 @@ public class BuildingBedRespVO {
     @ExcelProperty("室内地图坐标 Y")
     private String roomY;
 
-    @Schema(description = "室内地图区域名称", example = "赵六")
+    @Schema(description = "室内地图区域名称", example = "王五")
     @ExcelProperty("室内地图区域名称")
     private String roomAreaName;
 
-    @Schema(description = "床位名称", example = "李四")
-    @ExcelProperty("床位名称")
-    private String bedName;
-
-    @Schema(description = "床位价格", example = "32650")
+    @Schema(description = "床位价格", example = "18072")
     @ExcelProperty("床位价格")
     private String bedPrice;
 
-    @Schema(description = "床位类型", example = "2")
+    @Schema(description = "床位类型", example = "1")
     @ExcelProperty(value = "床位类型", converter = DictConvert.class)
     @DictFormat("bed_type") // TODO 代码优化：建议设置到对应的 DictTypeConstants 枚举类中
     private String bedType;
-
-    @Schema(description = "创建者")
-    @ExcelProperty("创建者")
-    private String creator;
 
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
     @ExcelProperty("创建时间")

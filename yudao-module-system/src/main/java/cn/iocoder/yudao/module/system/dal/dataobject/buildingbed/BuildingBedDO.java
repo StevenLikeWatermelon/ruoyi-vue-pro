@@ -22,7 +22,7 @@ import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 @AllArgsConstructor
 public class BuildingBedDO extends BaseDO {
 
-    public static final Long ID_ROOT = 0L;
+    public static final Long PARENT_ID_ROOT = 0L;
 
     /**
      * 编号
@@ -34,7 +34,7 @@ public class BuildingBedDO extends BaseDO {
      */
     private String name;
     /**
-     * 父级信息
+     * 父级编号
      */
     private Long parentId;
     /**
@@ -123,10 +123,6 @@ public class BuildingBedDO extends BaseDO {
      * 室内地图区域名称
      */
     private String roomAreaName;
-    /**
-     * 床位名称
-     */
-    private String bedName;
     /**
      * 床位价格
      */
