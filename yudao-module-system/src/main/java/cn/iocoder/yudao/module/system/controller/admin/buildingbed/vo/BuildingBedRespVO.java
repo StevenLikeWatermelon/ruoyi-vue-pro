@@ -130,6 +130,10 @@ public class BuildingBedRespVO {
     @ExcelProperty("更新者")
     private String updater;
 
+    @Schema(description = "创建者")
+    @ExcelProperty("创建者")
+    private String creator;
+
     @Schema(description = "更新时间", requiredMode = Schema.RequiredMode.REQUIRED)
     @ExcelProperty("更新时间")
     private LocalDateTime updateTime;
