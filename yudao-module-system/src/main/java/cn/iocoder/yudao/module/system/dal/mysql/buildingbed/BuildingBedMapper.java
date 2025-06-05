@@ -21,6 +21,7 @@ public interface BuildingBedMapper extends BaseMapperX<BuildingBedDO> {
         return selectList(new LambdaQueryWrapperX<BuildingBedDO>()
                 .likeIfPresent(BuildingBedDO::getName, reqVO.getName())
                 .eqIfPresent(BuildingBedDO::getBedType, reqVO.getBedType())
+                .eqIfPresent(BuildingBedDO::getLevel, reqVO.getLevel())
                 .eqIfPresent(BuildingBedDO::getCreator, reqVO.getCreator())
                 .betweenIfPresent(BuildingBedDO::getCreateTime, reqVO.getCreateTime())
                 .orderByDesc(BuildingBedDO::getId));

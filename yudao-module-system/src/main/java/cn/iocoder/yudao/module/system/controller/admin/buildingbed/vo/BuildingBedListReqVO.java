@@ -19,6 +19,9 @@ public class BuildingBedListReqVO {
     @Schema(description = "床位类型", example = "1")
     private String bedType;
 
+    @Schema(description = "节点层级", example = "1")
+    private String level;
+
     @Schema(description = "创建者")
     private String creator;
 
