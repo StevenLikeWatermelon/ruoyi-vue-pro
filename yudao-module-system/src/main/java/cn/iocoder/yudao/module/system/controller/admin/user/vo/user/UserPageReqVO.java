@@ -19,6 +19,9 @@ import static cn.iocoder.yudao.framework.common.util.date.DateUtils.FORMAT_YEAR_
 @EqualsAndHashCode(callSuper = true)
 public class UserPageReqVO extends PageParam {
 
+    @Schema(description = "用户ID", example = "1")
+    private Long id;
+
     @Schema(description = "用户账号，模糊匹配", example = "yudao")
     private String username;
 
