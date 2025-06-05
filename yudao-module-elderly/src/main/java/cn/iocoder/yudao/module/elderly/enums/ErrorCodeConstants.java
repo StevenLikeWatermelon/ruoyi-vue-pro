@@ -10,5 +10,7 @@ import cn.iocoder.yudao.framework.common.exception.ErrorCode;
 public interface ErrorCodeConstants {
     // ========== elderly 咨询登记（1_001_001_000） ==========
     ErrorCode CONSULTATION_NOT_EXISTS = new ErrorCode(1_001_001_000, "咨询登记不存在");
+    // ========== 预约登记 1_002_001_000 ==========
+    ErrorCode RESERVE_NOT_EXISTS = new ErrorCode(1_002_001_000, "预约登记不存在");
 
 }
