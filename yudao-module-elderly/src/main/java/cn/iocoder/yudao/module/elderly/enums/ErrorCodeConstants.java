@@ -12,5 +12,7 @@ public interface ErrorCodeConstants {
     ErrorCode CONSULTATION_NOT_EXISTS = new ErrorCode(1_001_001_000, "咨询登记不存在");
     // ========== 预约登记 1_002_001_000 ==========
     ErrorCode RESERVE_NOT_EXISTS = new ErrorCode(1_002_001_000, "预约登记不存在");
-
+    // ========== 床位相关 1_002_002_000 ==========
+    ErrorCode BED_NOT_EXISTS = new ErrorCode(1_002_002_000, "床位不存在");
+    ErrorCode BED_ALREADY_OCCUPIED = new ErrorCode(1_002_002_001, "床位已被预定/试住/入住，无法再次预定");
 }

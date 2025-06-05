@@ -30,6 +30,16 @@ public interface BuildingBedService {
     void updateBuildingBed(@Valid BuildingBedSaveReqVO updateReqVO);
 
     /**
+     * 更新床位状态
+     *
+     * @param id 床位编号
+     * @param hasReserved 是否已预约
+     * @param hasUsed 是否已入住
+     * @param hasTried 是否已试住
+     */
+    void updateBedStatus(Long id, String hasReserved, String hasUsed, String hasTried);
+
+    /**
      * 删除楼层床位
      *
      * @param id 编号

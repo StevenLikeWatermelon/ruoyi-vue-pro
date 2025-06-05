@@ -14,6 +14,9 @@ import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 
 import cn.iocoder.yudao.module.elderly.dal.mysql.reserve.ReserveMapper;
+import cn.iocoder.yudao.module.system.service.buildingbed.BuildingBedService;
+import cn.iocoder.yudao.module.system.dal.dataobject.buildingbed.BuildingBedDO;
+import cn.iocoder.yudao.module.system.controller.admin.buildingbed.vo.BuildingBedSaveReqVO;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
@@ -32,11 +35,28 @@ public class ReserveServiceImpl implements ReserveService {
     @Resource
     private ReserveMapper reserveMapper;
 
+    @Resource
+    private BuildingBedService buildingBedService;
+
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Long createReserve(ReserveSaveReqVO createReqVO) {
-        // 插入
+        // 校验床位状态
+        BuildingBedDO bed = buildingBedService.getBuildingBed(createReqVO.getBedId());
+        if (bed == null) {
+            throw exception(BED_NOT_EXISTS);
+        }
+        if ("1".equals(bed.getHasReserved()) || "1".equals(bed.getHasUsed()) || "1".equals(bed.getHasTried())) {
+            throw exception(BED_ALREADY_OCCUPIED);
+        }
+
+        // 插入预约记录
         ReserveDO reserve = BeanUtils.toBean(createReqVO, ReserveDO.class);
         reserveMapper.insert(reserve);
+
+        // 更新床位状态为已预订
+        buildingBedService.updateBedStatus(createReqVO.getBedId(), "1", null, null);
+
         // 返回
         return reserve.getId();
     }
