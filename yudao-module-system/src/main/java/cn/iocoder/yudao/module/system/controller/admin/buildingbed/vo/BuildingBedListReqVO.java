@@ -13,6 +13,9 @@ import static cn.iocoder.yudao.framework.common.util.date.DateUtils.FORMAT_YEAR_
 @Data
 public class BuildingBedListReqVO {
 
+    @Schema(description = "编号", example = "1")
+    private Long id;
+
     @Schema(description = "名字", example = "王五")
     private String name;
 
