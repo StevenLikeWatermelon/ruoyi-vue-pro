@@ -138,6 +138,11 @@ public class BuildingBedDO extends BaseDO {
 
      */
     private String parentIdChian;
+    /**
+     * 节点层级
+
+     */
+    private String level;
 
 
 }

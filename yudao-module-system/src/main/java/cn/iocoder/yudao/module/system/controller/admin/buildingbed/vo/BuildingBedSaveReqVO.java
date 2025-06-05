@@ -83,4 +83,7 @@ public class BuildingBedSaveReqVO {
     @Schema(description = "父级id链条")
     private String parentIdChian;
 
+    @Schema(description = "节点层级")
+    private String level;
+
 }
