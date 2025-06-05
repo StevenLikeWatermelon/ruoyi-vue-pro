@@ -62,10 +62,29 @@ public class ReserveServiceImpl implements ReserveService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateReserve(ReserveSaveReqVO updateReqVO) {
         // 校验存在
-        validateReserveExists(updateReqVO.getId());
-        // 更新
+        ReserveDO oldReserve = validateReserveExists(updateReqVO.getId());
+        
+        // 校验新床位状态
+        BuildingBedDO newBed = buildingBedService.getBuildingBed(updateReqVO.getBedId());
+        if (newBed == null) {
+            throw exception(BED_NOT_EXISTS);
+        }
+        if ("1".equals(newBed.getHasReserved()) || "1".equals(newBed.getHasUsed()) || "1".equals(newBed.getHasTried())) {
+            throw exception(BED_ALREADY_OCCUPIED);
+        }
+
+        // 如果床位ID发生变化，需要释放旧床位
+        if (!Objects.equals(oldReserve.getBedId(), updateReqVO.getBedId())) {
+            // 释放旧床位
+            buildingBedService.updateBedStatus(oldReserve.getBedId(), "0", null, null);
+            // 占用新床位
+            buildingBedService.updateBedStatus(updateReqVO.getBedId(), "1", null, null);
+        }
+
+        // 更新预约记录
         ReserveDO updateObj = BeanUtils.toBean(updateReqVO, ReserveDO.class);
         reserveMapper.updateById(updateObj);
     }
@@ -93,10 +112,12 @@ public class ReserveServiceImpl implements ReserveService {
         }
     }
 
-    private void validateReserveExists(Long id) {
-        if (reserveMapper.selectById(id) == null) {
+    private ReserveDO validateReserveExists(Long id) {
+        ReserveDO reserve = reserveMapper.selectById(id);
+        if (reserve == null) {
             throw exception(RESERVE_NOT_EXISTS);
         }
+        return reserve;
     }
 
     @Override
