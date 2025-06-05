@@ -143,6 +143,21 @@ public class BuildingBedDO extends BaseDO {
 
      */
     private String level;
+    /**
+     * 已入住
+
+     */
+    private String hasUsed;
+    /**
+     * 已试住
+
+     */
+    private String hasTried;
+    /**
+     * 已预约
+
+     */
+    private String hasReserved;
 
 
 }

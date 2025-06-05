@@ -86,4 +86,13 @@ public class BuildingBedSaveReqVO {
     @Schema(description = "节点层级")
     private String level;
 
+    @Schema(description = "已入住")
+    private String hasUsed;
+
+    @Schema(description = "已试住")
+    private String hasTried;
+
+    @Schema(description = "已预约")
+    private String hasReserved;
+
 }

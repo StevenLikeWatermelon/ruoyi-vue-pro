@@ -22,6 +22,15 @@ public class BuildingBedListReqVO {
     @Schema(description = "节点层级", example = "1")
     private String level;
 
+    @Schema(description = "已入住", example = "1")
+    private String hasUsed;
+
+    @Schema(description = "已试住", example = "1")
+    private String hasTried;
+
+    @Schema(description = "已预约", example = "1")
+    private String hasReserved;
+
     @Schema(description = "创建者")
     private String creator;
 

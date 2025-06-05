@@ -117,6 +117,18 @@ public class BuildingBedRespVO {
     @ExcelProperty("节点层级")
     private String level;
 
+    @Schema(description = "已入住")
+    @ExcelProperty("已入住")
+    private String hasUsed;
+
+    @Schema(description = "已试住")
+    @ExcelProperty("已试住")
+    private String hasTried;
+
+    @Schema(description = "已预约")
+    @ExcelProperty("已预约")
+    private String hasReserved;
+
     @Schema(description = "床位类型", example = "1")
     @ExcelProperty(value = "床位类型", converter = DictConvert.class)
     @DictFormat("bed_type") // TODO 代码优化：建议设置到对应的 DictTypeConstants 枚举类中
