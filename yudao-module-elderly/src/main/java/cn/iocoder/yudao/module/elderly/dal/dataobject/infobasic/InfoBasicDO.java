@@ -57,7 +57,6 @@ public class InfoBasicDO extends BaseDO {
     /**
      * 身份证号是否随机（0-否，1-是）
      */
-    @TableId(type = IdType.INPUT)
     private String isRandomId;
     /**
      * 民族
