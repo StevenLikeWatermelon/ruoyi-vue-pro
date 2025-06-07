@@ -94,10 +94,10 @@ public class InfoBasicSaveReqVO {
     private String residentialAddress;
 
     @Schema(description = "过敏药物")
-    private String allergicDrugs;
+    private List<String> allergicDrugs;
 
     @Schema(description = "饮食禁忌")
-    private String dietaryRestrictions;
+    private List<String> dietaryRestrictions;
 
     @Schema(description = "主要疾病")
     private String mainDiseases;

@@ -167,11 +167,21 @@ public class InfoBasicDO extends BaseDO {
      */
     private String allergicDrugs;
     /**
+     * 过敏药物列表（非数据库字段）
+     */
+    @TableField(exist = false)
+    private List<String> allergicDrugsList;
+    /**
      * 饮食禁忌
      *
      * 枚举 {@link TODO dietary_limit_type 对应的类}
      */
     private String dietaryRestrictions;
+    /**
+     * 饮食禁忌列表（非数据库字段）
+     */
+    @TableField(exist = false)
+    private List<String> dietaryRestrictionsList;
     /**
      * 主要疾病
      *

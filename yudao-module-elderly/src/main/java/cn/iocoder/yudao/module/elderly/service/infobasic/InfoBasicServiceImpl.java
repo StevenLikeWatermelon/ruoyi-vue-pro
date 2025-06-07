@@ -1,6 +1,9 @@
 package cn.iocoder.yudao.module.elderly.service.infobasic;
 
 import cn.hutool.core.collection.CollUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
@@ -32,21 +35,58 @@ public class InfoBasicServiceImpl implements InfoBasicService {
     @Resource
     private InfoBasicMapper infoBasicMapper;
 
+    @Resource
+    private ObjectMapper objectMapper;
+
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Long createInfoBasic(InfoBasicSaveReqVO createReqVO) {
         // 插入
         InfoBasicDO infoBasic = BeanUtils.toBean(createReqVO, InfoBasicDO.class);
+        // 处理过敏药物列表
+        if (createReqVO.getAllergicDrugs() != null) {
+            try {
+                infoBasic.setAllergicDrugs(objectMapper.writeValueAsString(createReqVO.getAllergicDrugs()));
+            } catch (JsonProcessingException e) {
+                throw exception(INFO_BASIC_ALLERGIC_DRUGS_CONVERT_ERROR);
+            }
+        }
+        // 处理饮食禁忌列表
+        if (createReqVO.getDietaryRestrictions() != null) {
+            try {
+                infoBasic.setDietaryRestrictions(objectMapper.writeValueAsString(createReqVO.getDietaryRestrictions()));
+            } catch (JsonProcessingException e) {
+                throw exception(INFO_BASIC_DIETARY_RESTRICTIONS_CONVERT_ERROR);
+            }
+        }
         infoBasicMapper.insert(infoBasic);
         // 返回
         return infoBasic.getId();
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateInfoBasic(InfoBasicSaveReqVO updateReqVO) {
         // 校验存在
         validateInfoBasicExists(updateReqVO.getId());
         // 更新
         InfoBasicDO updateObj = BeanUtils.toBean(updateReqVO, InfoBasicDO.class);
+        // 处理过敏药物列表
+        if (updateReqVO.getAllergicDrugs() != null) {
+            try {
+                updateObj.setAllergicDrugs(objectMapper.writeValueAsString(updateReqVO.getAllergicDrugs()));
+            } catch (JsonProcessingException e) {
+                throw exception(INFO_BASIC_ALLERGIC_DRUGS_CONVERT_ERROR);
+            }
+        }
+        // 处理饮食禁忌列表
+        if (updateReqVO.getDietaryRestrictions() != null) {
+            try {
+                updateObj.setDietaryRestrictions(objectMapper.writeValueAsString(updateReqVO.getDietaryRestrictions()));
+            } catch (JsonProcessingException e) {
+                throw exception(INFO_BASIC_DIETARY_RESTRICTIONS_CONVERT_ERROR);
+            }
+        }
         infoBasicMapper.updateById(updateObj);
     }
 
@@ -81,7 +121,30 @@ public class InfoBasicServiceImpl implements InfoBasicService {
 
     @Override
     public InfoBasicDO getInfoBasic(Long id) {
-        return infoBasicMapper.selectById(id);
+        InfoBasicDO infoBasic = infoBasicMapper.selectById(id);
+        if (infoBasic != null) {
+            // 处理过敏药物列表
+            if (infoBasic.getAllergicDrugs() != null) {
+                try {
+                    List<String> allergicDrugs = objectMapper.readValue(infoBasic.getAllergicDrugs(), 
+                        new TypeReference<List<String>>() {});
+                    infoBasic.setAllergicDrugsList(allergicDrugs);
+                } catch (JsonProcessingException e) {
+                    throw exception(INFO_BASIC_ALLERGIC_DRUGS_CONVERT_ERROR);
+                }
+            }
+            // 处理饮食禁忌列表
+            if (infoBasic.getDietaryRestrictions() != null) {
+                try {
+                    List<String> dietaryRestrictions = objectMapper.readValue(infoBasic.getDietaryRestrictions(), 
+                        new TypeReference<List<String>>() {});
+                    infoBasic.setDietaryRestrictionsList(dietaryRestrictions);
+                } catch (JsonProcessingException e) {
+                    throw exception(INFO_BASIC_DIETARY_RESTRICTIONS_CONVERT_ERROR);
+                }
+            }
+        }
+        return infoBasic;
     }
 
     @Override
