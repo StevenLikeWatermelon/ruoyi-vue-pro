@@ -33,6 +33,7 @@ public class BuildingBedServiceImpl implements BuildingBedService {
     private BuildingBedMapper buildingBedMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Long createBuildingBed(BuildingBedSaveReqVO createReqVO) {
         // 校验父级编号的有效性
         validateParentBuildingBed(null, createReqVO.getParentId());
@@ -42,6 +43,38 @@ public class BuildingBedServiceImpl implements BuildingBedService {
         // 插入
         BuildingBedDO buildingBed = BeanUtils.toBean(createReqVO, BuildingBedDO.class);
         buildingBedMapper.insert(buildingBed);
+
+        // 如果是房间（level == 2）且存在房间等级，则自动创建床位
+        if ("2".equals(createReqVO.getLevel()) && createReqVO.getRoomLevel() != null) {
+            int bedCount = 0;
+            switch (createReqVO.getRoomLevel()) {
+                case "1": // 单人间
+                    bedCount = 1;
+                    break;
+                case "2": // 双人间
+                    bedCount = 2;
+                    break;
+                case "3": // 三人间
+                    bedCount = 3;
+                    break;
+                case "4": // 四人间
+                    bedCount = 4;
+                    break;
+            }
+
+            // 创建床位
+            for (int i = 1; i <= bedCount; i++) {
+                BuildingBedDO bed = new BuildingBedDO();
+                bed.setParentId(buildingBed.getId());
+                bed.setName(createReqVO.getName() + "-" + i + "号床");
+                bed.setLevel("3"); // 设置层级为床位
+                bed.setHasUsed("0");
+                bed.setHasTried("0");
+                bed.setHasReserved("0");
+                buildingBedMapper.insert(bed);
+            }
+        }
+
         // 返回
         return buildingBed.getId();
     }
