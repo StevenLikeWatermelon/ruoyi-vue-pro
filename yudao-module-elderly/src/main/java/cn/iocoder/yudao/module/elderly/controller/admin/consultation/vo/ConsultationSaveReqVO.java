@@ -82,4 +82,8 @@ public class ConsultationSaveReqVO {
     @Schema(description = "创建人", example = "李四")
     private String creator;
 
+    @Schema(description = "老人编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @NotNull(message = "老人编号不能为空")
+    private Long elderlyId;
+
 }

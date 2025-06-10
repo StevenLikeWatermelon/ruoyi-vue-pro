@@ -47,6 +47,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         validateConsultationExists(updateReqVO.getId());
         // 更新
         ConsultationDO updateObj = BeanUtils.toBean(updateReqVO, ConsultationDO.class);
+        updateObj.setElderlyId(updateReqVO.getElderlyId());
         consultationMapper.updateById(updateObj);
     }
 
