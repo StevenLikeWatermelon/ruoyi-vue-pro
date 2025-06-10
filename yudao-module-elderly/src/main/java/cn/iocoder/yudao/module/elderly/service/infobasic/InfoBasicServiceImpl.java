@@ -149,7 +149,31 @@ public class InfoBasicServiceImpl implements InfoBasicService {
 
     @Override
     public PageResult<InfoBasicDO> getInfoBasicPage(InfoBasicPageReqVO pageReqVO) {
-        return infoBasicMapper.selectPage(pageReqVO);
+        PageResult<InfoBasicDO> pageResult = infoBasicMapper.selectPage(pageReqVO);
+        // 处理过敏药物列表和饮食禁忌列表的转换
+        pageResult.getList().forEach(infoBasic -> {
+            // 处理过敏药物列表
+            if (infoBasic.getAllergicDrugs() != null) {
+                try {
+                    List<String> allergicDrugs = objectMapper.readValue(infoBasic.getAllergicDrugs(), 
+                        new TypeReference<List<String>>() {});
+                    infoBasic.setAllergicDrugsList(allergicDrugs);
+                } catch (JsonProcessingException e) {
+                    throw exception(INFO_BASIC_ALLERGIC_DRUGS_CONVERT_ERROR);
+                }
+            }
+            // 处理饮食禁忌列表
+            if (infoBasic.getDietaryRestrictions() != null) {
+                try {
+                    List<String> dietaryRestrictions = objectMapper.readValue(infoBasic.getDietaryRestrictions(), 
+                        new TypeReference<List<String>>() {});
+                    infoBasic.setDietaryRestrictionsList(dietaryRestrictions);
+                } catch (JsonProcessingException e) {
+                    throw exception(INFO_BASIC_DIETARY_RESTRICTIONS_CONVERT_ERROR);
+                }
+            }
+        });
+        return pageResult;
     }
 
 }

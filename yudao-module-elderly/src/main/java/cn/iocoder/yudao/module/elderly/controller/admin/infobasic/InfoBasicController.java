@@ -13,6 +13,7 @@ import javax.validation.*;
 import javax.servlet.http.*;
 import java.util.*;
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
@@ -85,7 +86,13 @@ public class InfoBasicController {
     @PreAuthorize("@ss.hasPermission('elderly:info-basic:query')")
     public CommonResult<PageResult<InfoBasicRespVO>> getInfoBasicPage(@Valid InfoBasicPageReqVO pageReqVO) {
         PageResult<InfoBasicDO> pageResult = infoBasicService.getInfoBasicPage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, InfoBasicRespVO.class));
+        List<InfoBasicRespVO> list = pageResult.getList().stream().map(infoBasic -> {
+            InfoBasicRespVO vo = BeanUtils.toBean(infoBasic, InfoBasicRespVO.class);
+            vo.setAllergicDrugs(infoBasic.getAllergicDrugsList());
+            vo.setDietaryRestrictions(infoBasic.getDietaryRestrictionsList());
+            return vo;
+        }).collect(Collectors.toList());
+        return success(new PageResult<>(list, pageResult.getTotal()));
     }
 
     @GetMapping("/export-excel")

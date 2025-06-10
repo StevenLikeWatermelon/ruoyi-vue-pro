@@ -134,14 +134,12 @@ public class InfoBasicRespVO {
     private String residentialAddress;
 
     @Schema(description = "过敏药物")
-    @ExcelProperty(value = "过敏药物", converter = DictConvert.class)
-    @DictFormat("allergic_drug_type") // TODO 代码优化：建议设置到对应的 DictTypeConstants 枚举类中
-    private String allergicDrugs;
+    @ExcelProperty("过敏药物")
+    private List<String> allergicDrugs;
 
     @Schema(description = "饮食禁忌")
-    @ExcelProperty(value = "饮食禁忌", converter = DictConvert.class)
-    @DictFormat("dietary_limit_type") // TODO 代码优化：建议设置到对应的 DictTypeConstants 枚举类中
-    private String dietaryRestrictions;
+    @ExcelProperty("饮食禁忌")
+    private List<String> dietaryRestrictions;
 
     @Schema(description = "主要疾病")
     @ExcelProperty(value = "主要疾病", converter = DictConvert.class)
