@@ -120,5 +120,9 @@ public class ReserveDO extends BaseDO {
      */
     private LocalDateTime reserveStartTime;
 
+    /**
+     * 老人编号
+     */
+    private Long elderlyId;
 
 }

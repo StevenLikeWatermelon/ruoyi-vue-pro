@@ -44,4 +44,7 @@ public class ReservePageReqVO extends PageParam {
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     private LocalDateTime[] plannedCheckinTime;
 
+    @Schema(description = "老人编号", example = "1024")
+    private Long elderlyId;
+
 }

@@ -125,4 +125,8 @@ public class ReserveRespVO {
     @ExcelProperty("预留开始时间")
     private LocalDateTime reserveStartTime;
 
+    @Schema(description = "老人编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @ExcelProperty("老人编号")
+    private Long elderlyId;
+
 }

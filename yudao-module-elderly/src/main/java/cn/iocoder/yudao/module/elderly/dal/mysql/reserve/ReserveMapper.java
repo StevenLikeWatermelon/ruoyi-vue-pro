@@ -28,6 +28,7 @@ public interface ReserveMapper extends BaseMapperX<ReserveDO> {
                 .eqIfPresent(ReserveDO::getCreator, reqVO.getCreator())
                 .betweenIfPresent(ReserveDO::getCreateTime, reqVO.getCreateTime())
                 .betweenIfPresent(ReserveDO::getPlannedCheckinTime, reqVO.getPlannedCheckinTime())
+                .eqIfPresent(ReserveDO::getElderlyId, reqVO.getElderlyId())
                 .orderByDesc(ReserveDO::getId));
     }
 

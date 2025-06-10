@@ -89,4 +89,8 @@ public class ReserveSaveReqVO {
     @Schema(description = "预留开始时间")
     private LocalDateTime reserveStartTime;
 
+    @Schema(description = "老人编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @NotNull(message = "老人编号不能为空")
+    private Long elderlyId;
+
 }
