@@ -78,7 +78,10 @@ public class InfoBasicController {
     @PreAuthorize("@ss.hasPermission('elderly:info-basic:query')")
     public CommonResult<InfoBasicRespVO> getInfoBasic(@RequestParam("id") Long id) {
         InfoBasicDO infoBasic = infoBasicService.getInfoBasic(id);
-        return success(BeanUtils.toBean(infoBasic, InfoBasicRespVO.class));
+        InfoBasicRespVO vo = BeanUtils.toBean(infoBasic, InfoBasicRespVO.class);
+        vo.setAllergicDrugs(infoBasic.getAllergicDrugsList());
+        vo.setDietaryRestrictions(infoBasic.getDietaryRestrictionsList());
+        return success(vo);
     }
 
     @GetMapping("/page")

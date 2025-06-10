@@ -14,7 +14,10 @@ import static cn.iocoder.yudao.framework.common.util.date.DateUtils.FORMAT_YEAR_
 @Data
 public class ConsultationPageReqVO extends PageParam {
 
-    @Schema(description = "咨询人姓名", example = "李四")
+    @Schema(description = "老人编号", example = "1024")
+    private Long elderlyId;
+
+    @Schema(description = "咨询人姓名", example = "张三")
     private String consultantName;
 
     @Schema(description = "与老人关系")

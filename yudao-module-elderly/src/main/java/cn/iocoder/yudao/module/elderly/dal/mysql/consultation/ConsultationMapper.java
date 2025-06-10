@@ -19,6 +19,7 @@ public interface ConsultationMapper extends BaseMapperX<ConsultationDO> {
 
     default PageResult<ConsultationDO> selectPage(ConsultationPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<ConsultationDO>()
+                .eqIfPresent(ConsultationDO::getElderlyId, reqVO.getElderlyId())
                 .likeIfPresent(ConsultationDO::getConsultantName, reqVO.getConsultantName())
                 .eqIfPresent(ConsultationDO::getRelationship, reqVO.getRelationship())
                 .betweenIfPresent(ConsultationDO::getConsultationDate, reqVO.getConsultationDate())

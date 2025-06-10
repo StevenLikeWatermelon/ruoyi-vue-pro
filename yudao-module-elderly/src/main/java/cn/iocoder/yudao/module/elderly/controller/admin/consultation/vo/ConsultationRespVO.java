@@ -19,7 +19,11 @@ public class ConsultationRespVO {
     @ExcelProperty("编号")
     private Long id;
 
-    @Schema(description = "咨询人姓名", requiredMode = Schema.RequiredMode.REQUIRED, example = "李四")
+    @Schema(description = "老人编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @ExcelProperty("老人编号")
+    private Long elderlyId;
+
+    @Schema(description = "咨询人姓名", requiredMode = Schema.RequiredMode.REQUIRED, example = "张三")
     @ExcelProperty("咨询人姓名")
     private String consultantName;
 

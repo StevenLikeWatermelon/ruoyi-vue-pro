@@ -53,10 +53,15 @@ public class InfoBasicServiceImpl implements InfoBasicService {
         }
         // 处理饮食禁忌列表
         if (createReqVO.getDietaryRestrictions() != null) {
-            try {
-                infoBasic.setDietaryRestrictions(objectMapper.writeValueAsString(createReqVO.getDietaryRestrictions()));
-            } catch (JsonProcessingException e) {
-                throw exception(INFO_BASIC_DIETARY_RESTRICTIONS_CONVERT_ERROR);
+            Object dietaryRestrictions = createReqVO.getDietaryRestrictions();
+            if (dietaryRestrictions instanceof List) {
+                try {
+                    infoBasic.setDietaryRestrictions(objectMapper.writeValueAsString(dietaryRestrictions));
+                } catch (JsonProcessingException e) {
+                    throw exception(INFO_BASIC_DIETARY_RESTRICTIONS_CONVERT_ERROR);
+                }
+            } else if (dietaryRestrictions instanceof String) {
+                infoBasic.setDietaryRestrictions((String) dietaryRestrictions);
             }
         }
         infoBasicMapper.insert(infoBasic);
@@ -136,8 +141,8 @@ public class InfoBasicServiceImpl implements InfoBasicService {
             // 处理饮食禁忌列表
             if (infoBasic.getDietaryRestrictions() != null) {
                 try {
-                    List<String> dietaryRestrictions = objectMapper.readValue(infoBasic.getDietaryRestrictions(), 
-                        new TypeReference<List<String>>() {});
+                    List<String> dietaryRestrictions = objectMapper.readValue(
+                        infoBasic.getDietaryRestrictions(), new TypeReference<List<String>>() {});
                     infoBasic.setDietaryRestrictionsList(dietaryRestrictions);
                 } catch (JsonProcessingException e) {
                     throw exception(INFO_BASIC_DIETARY_RESTRICTIONS_CONVERT_ERROR);

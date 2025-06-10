@@ -29,6 +29,10 @@ public class ConsultationDO extends BaseDO {
     @TableId
     private Long id;
     /**
+     * 老人编号
+     */
+    private Long elderlyId;
+    /**
      * 咨询人姓名
      */
     private String consultantName;
