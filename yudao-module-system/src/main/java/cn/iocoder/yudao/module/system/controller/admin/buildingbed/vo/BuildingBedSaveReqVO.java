@@ -95,4 +95,7 @@ public class BuildingBedSaveReqVO {
     @Schema(description = "已预约")
     private String hasReserved;
 
+    @Schema(description = "预订人ID")
+    private Long userBedId;
+
 }

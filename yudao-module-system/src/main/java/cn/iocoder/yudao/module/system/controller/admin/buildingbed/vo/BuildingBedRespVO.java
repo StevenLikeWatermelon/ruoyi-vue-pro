@@ -129,6 +129,10 @@ public class BuildingBedRespVO {
     @ExcelProperty("已预约")
     private String hasReserved;
 
+    @Schema(description = "预订人ID")
+    @ExcelProperty("预订人ID")
+    private Long userBedId;
+
     @Schema(description = "床位类型", example = "1")
     @ExcelProperty(value = "床位类型", converter = DictConvert.class)
     @DictFormat("bed_type") // TODO 代码优化：建议设置到对应的 DictTypeConstants 枚举类中

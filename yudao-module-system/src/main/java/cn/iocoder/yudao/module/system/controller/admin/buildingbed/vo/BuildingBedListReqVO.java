@@ -34,6 +34,9 @@ public class BuildingBedListReqVO {
     @Schema(description = "已预约", example = "1")
     private String hasReserved;
 
+    @Schema(description = "预订人ID")
+    private Long userBedId;
+
     @Schema(description = "创建者")
     private String creator;
 

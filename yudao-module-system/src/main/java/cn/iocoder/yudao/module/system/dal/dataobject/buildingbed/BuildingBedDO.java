@@ -159,5 +159,9 @@ public class BuildingBedDO extends BaseDO {
      */
     private String hasReserved;
 
+    /**
+     * 预订人ID
+     */
+    private Long userBedId;
 
 }

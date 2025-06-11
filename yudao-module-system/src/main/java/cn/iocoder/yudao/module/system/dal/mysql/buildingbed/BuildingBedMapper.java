@@ -27,6 +27,7 @@ public interface BuildingBedMapper extends BaseMapperX<BuildingBedDO> {
                 .eqIfPresent(BuildingBedDO::getHasReserved, reqVO.getHasReserved())
                 .eqIfPresent(BuildingBedDO::getHasUsed, reqVO.getHasUsed())
                 .eqIfPresent(BuildingBedDO::getHasTried, reqVO.getHasTried())
+                .eqIfPresent(BuildingBedDO::getUserBedId, reqVO.getUserBedId())
                 .betweenIfPresent(BuildingBedDO::getCreateTime, reqVO.getCreateTime())
                 .orderByDesc(BuildingBedDO::getId));
     }
