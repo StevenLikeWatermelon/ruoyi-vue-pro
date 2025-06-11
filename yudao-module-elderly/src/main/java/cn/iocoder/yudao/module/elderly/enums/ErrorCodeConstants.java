@@ -19,4 +19,6 @@ public interface ErrorCodeConstants {
     ErrorCode INFO_BASIC_NOT_EXISTS = new ErrorCode(1_003_001_000, "老人基本信息不存在");
     ErrorCode INFO_BASIC_ALLERGIC_DRUGS_CONVERT_ERROR = new ErrorCode(1_003_001_001, "过敏药物数据转换失败");
     ErrorCode INFO_BASIC_DIETARY_RESTRICTIONS_CONVERT_ERROR = new ErrorCode(1_003_001_002, "饮食禁忌数据转换失败");
+    // ========== 来访登记 1_004_001_000 ==========
+    ErrorCode VISIT_REGISTRATION_NOT_EXISTS = new ErrorCode(1_004_001_000, "来访登记不存在");
 }
