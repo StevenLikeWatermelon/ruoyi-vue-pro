@@ -58,11 +58,7 @@ public class ReserveServiceImpl implements ReserveService {
         reserveMapper.insert(reserve);
 
         // 更新床位状态为已预订，并设置预订人ID
-        BuildingBedSaveReqVO updateBedReqVO = new BuildingBedSaveReqVO();
-        updateBedReqVO.setId(createReqVO.getBedId());
-        updateBedReqVO.setHasReserved("1");
-        updateBedReqVO.setUserBedId(createReqVO.getElderlyId());
-        buildingBedService.updateBuildingBed(updateBedReqVO);
+        buildingBedService.updateBedReserve(createReqVO.getBedId(), "1", createReqVO.getElderlyId());
 
         return reserve.getId();
     }
@@ -88,24 +84,13 @@ public class ReserveServiceImpl implements ReserveService {
         // 如果床位ID发生变化，需要释放旧床位
         if (!Objects.equals(oldReserve.getBedId(), updateReqVO.getBedId())) {
             // 释放旧床位
-            BuildingBedSaveReqVO releaseBedReqVO = new BuildingBedSaveReqVO();
-            releaseBedReqVO.setId(oldReserve.getBedId());
-            releaseBedReqVO.setHasReserved("0");
-            releaseBedReqVO.setUserBedId(null);
-            buildingBedService.updateBuildingBed(releaseBedReqVO);
+            buildingBedService.updateBedReserve(oldReserve.getBedId(), "0", null);
 
             // 占用新床位
-            BuildingBedSaveReqVO occupyBedReqVO = new BuildingBedSaveReqVO();
-            occupyBedReqVO.setId(updateReqVO.getBedId());
-            occupyBedReqVO.setHasReserved("1");
-            occupyBedReqVO.setUserBedId(updateReqVO.getElderlyId());
-            buildingBedService.updateBuildingBed(occupyBedReqVO);
+            buildingBedService.updateBedReserve(updateReqVO.getBedId(), "1", updateReqVO.getElderlyId());
         } else if (!Objects.equals(oldReserve.getElderlyId(), updateReqVO.getElderlyId())) {
             // 如果床位没变但预订人变了，更新床位的预订人
-            BuildingBedSaveReqVO updateBedReqVO = new BuildingBedSaveReqVO();
-            updateBedReqVO.setId(updateReqVO.getBedId());
-            updateBedReqVO.setUserBedId(updateReqVO.getElderlyId());
-            buildingBedService.updateBuildingBed(updateBedReqVO);
+            buildingBedService.updateBedReserve(updateReqVO.getBedId(), "1", updateReqVO.getElderlyId());
         }
 
         // 更新预约记录
@@ -118,11 +103,7 @@ public class ReserveServiceImpl implements ReserveService {
         // 校验存在
         ReserveDO reserve = validateReserveExists(id);
         // 释放床位
-        BuildingBedSaveReqVO releaseBedReqVO = new BuildingBedSaveReqVO();
-        releaseBedReqVO.setId(reserve.getBedId());
-        releaseBedReqVO.setHasReserved("0");
-        releaseBedReqVO.setUserBedId(null);
-        buildingBedService.updateBuildingBed(releaseBedReqVO);
+        buildingBedService.updateBedReserve(reserve.getBedId(), "0", null);
         // 删除
         reserveMapper.deleteById(id);
     }
@@ -133,11 +114,7 @@ public class ReserveServiceImpl implements ReserveService {
         List<ReserveDO> reserves = validateReserveExists(ids);
         // 释放床位
         for (ReserveDO reserve : reserves) {
-            BuildingBedSaveReqVO releaseBedReqVO = new BuildingBedSaveReqVO();
-            releaseBedReqVO.setId(reserve.getBedId());
-            releaseBedReqVO.setHasReserved("0");
-            releaseBedReqVO.setUserBedId(null);
-            buildingBedService.updateBuildingBed(releaseBedReqVO);
+            buildingBedService.updateBedReserve(reserve.getBedId(), "0", null);
         }
         // 删除
         reserveMapper.deleteByIds(ids);

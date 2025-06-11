@@ -118,6 +118,18 @@ public class BuildingBedServiceImpl implements BuildingBedService {
         buildingBedMapper.updateById(updateObj);
     }
 
+    @Override
+    public void updateBedReserve(Long id, String hasReserved, Long userBedId) {
+        // 校验存在
+        validateBuildingBedExists(id);
+        // 更新状态
+        BuildingBedDO updateObj = new BuildingBedDO();
+        updateObj.setId(id);
+        updateObj.setHasReserved(hasReserved);
+        updateObj.setUserBedId(userBedId);
+        buildingBedMapper.updateById(updateObj);
+    }
+
     private void validateBuildingBedExists(Long id) {
         if (buildingBedMapper.selectById(id) == null) {
             throw exception(BUILDING_BED_NOT_EXISTS);

@@ -63,4 +63,13 @@ public interface BuildingBedService {
      */
     List<BuildingBedDO> getBuildingBedList(BuildingBedListReqVO listReqVO);
 
+    /**
+     * 更新床位预订人
+     *
+     * @param id 床位编号
+     * @param hasReserved 是否已预约
+     * @param userBedId 预订人ID
+     */
+    void updateBedReserve(Long id, String hasReserved, Long userBedId);
+
 }
