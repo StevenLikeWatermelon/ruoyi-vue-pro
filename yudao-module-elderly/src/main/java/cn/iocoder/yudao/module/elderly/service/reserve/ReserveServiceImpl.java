@@ -47,17 +47,23 @@ public class ReserveServiceImpl implements ReserveService {
             throw exception(BED_NOT_EXISTS);
         }
         if ("1".equals(bed.getHasReserved()) || "1".equals(bed.getHasUsed()) || "1".equals(bed.getHasTried())) {
-            throw exception(BED_ALREADY_OCCUPIED);
+            // 且床位占用人不是预订人自己，预订人取自请求中的elderlyId, 占用人取自bed信息中的getUserBedId
+            if (!Objects.equals(bed.getUserBedId(), createReqVO.getElderlyId())) {
+                throw exception(BED_ALREADY_OCCUPIED);
+            }
         }
 
         // 插入预约记录
         ReserveDO reserve = BeanUtils.toBean(createReqVO, ReserveDO.class);
         reserveMapper.insert(reserve);
 
-        // 更新床位状态为已预订
-        buildingBedService.updateBedStatus(createReqVO.getBedId(), "1", null, null);
+        // 更新床位状态为已预订，并设置预订人ID
+        BuildingBedSaveReqVO updateBedReqVO = new BuildingBedSaveReqVO();
+        updateBedReqVO.setId(createReqVO.getBedId());
+        updateBedReqVO.setHasReserved("1");
+        updateBedReqVO.setUserBedId(createReqVO.getElderlyId());
+        buildingBedService.updateBuildingBed(updateBedReqVO);
 
-        // 返回
         return reserve.getId();
     }
 
@@ -73,15 +79,33 @@ public class ReserveServiceImpl implements ReserveService {
             throw exception(BED_NOT_EXISTS);
         }
         if ("1".equals(newBed.getHasReserved()) || "1".equals(newBed.getHasUsed()) || "1".equals(newBed.getHasTried())) {
-            throw exception(BED_ALREADY_OCCUPIED);
+            // 且床位占用人不是预订人自己，预订人取自请求中的elderlyId, 占用人取自bed信息中的getUserBedId
+            if (!Objects.equals(newBed.getUserBedId(), updateReqVO.getElderlyId())) {
+                throw exception(BED_ALREADY_OCCUPIED);
+            }
         }
 
         // 如果床位ID发生变化，需要释放旧床位
         if (!Objects.equals(oldReserve.getBedId(), updateReqVO.getBedId())) {
             // 释放旧床位
-            buildingBedService.updateBedStatus(oldReserve.getBedId(), "0", null, null);
+            BuildingBedSaveReqVO releaseBedReqVO = new BuildingBedSaveReqVO();
+            releaseBedReqVO.setId(oldReserve.getBedId());
+            releaseBedReqVO.setHasReserved("0");
+            releaseBedReqVO.setUserBedId(null);
+            buildingBedService.updateBuildingBed(releaseBedReqVO);
+
             // 占用新床位
-            buildingBedService.updateBedStatus(updateReqVO.getBedId(), "1", null, null);
+            BuildingBedSaveReqVO occupyBedReqVO = new BuildingBedSaveReqVO();
+            occupyBedReqVO.setId(updateReqVO.getBedId());
+            occupyBedReqVO.setHasReserved("1");
+            occupyBedReqVO.setUserBedId(updateReqVO.getElderlyId());
+            buildingBedService.updateBuildingBed(occupyBedReqVO);
+        } else if (!Objects.equals(oldReserve.getElderlyId(), updateReqVO.getElderlyId())) {
+            // 如果床位没变但预订人变了，更新床位的预订人
+            BuildingBedSaveReqVO updateBedReqVO = new BuildingBedSaveReqVO();
+            updateBedReqVO.setId(updateReqVO.getBedId());
+            updateBedReqVO.setUserBedId(updateReqVO.getElderlyId());
+            buildingBedService.updateBuildingBed(updateBedReqVO);
         }
 
         // 更新预约记录
@@ -92,24 +116,39 @@ public class ReserveServiceImpl implements ReserveService {
     @Override
     public void deleteReserve(Long id) {
         // 校验存在
-        validateReserveExists(id);
+        ReserveDO reserve = validateReserveExists(id);
+        // 释放床位
+        BuildingBedSaveReqVO releaseBedReqVO = new BuildingBedSaveReqVO();
+        releaseBedReqVO.setId(reserve.getBedId());
+        releaseBedReqVO.setHasReserved("0");
+        releaseBedReqVO.setUserBedId(null);
+        buildingBedService.updateBuildingBed(releaseBedReqVO);
         // 删除
         reserveMapper.deleteById(id);
     }
 
     @Override
-        public void deleteReserveListByIds(List<Long> ids) {
+    public void deleteReserveListByIds(List<Long> ids) {
         // 校验存在
-        validateReserveExists(ids);
+        List<ReserveDO> reserves = validateReserveExists(ids);
+        // 释放床位
+        for (ReserveDO reserve : reserves) {
+            BuildingBedSaveReqVO releaseBedReqVO = new BuildingBedSaveReqVO();
+            releaseBedReqVO.setId(reserve.getBedId());
+            releaseBedReqVO.setHasReserved("0");
+            releaseBedReqVO.setUserBedId(null);
+            buildingBedService.updateBuildingBed(releaseBedReqVO);
+        }
         // 删除
         reserveMapper.deleteByIds(ids);
-        }
+    }
 
-    private void validateReserveExists(List<Long> ids) {
+    private List<ReserveDO> validateReserveExists(List<Long> ids) {
         List<ReserveDO> list = reserveMapper.selectByIds(ids);
         if (CollUtil.isEmpty(list) || list.size() != ids.size()) {
             throw exception(RESERVE_NOT_EXISTS);
         }
+        return list;
     }
 
     private ReserveDO validateReserveExists(Long id) {
