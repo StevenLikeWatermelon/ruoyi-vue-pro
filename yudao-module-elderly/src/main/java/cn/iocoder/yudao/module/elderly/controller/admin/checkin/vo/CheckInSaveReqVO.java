@@ -7,7 +7,7 @@ import javax.validation.constraints.*;
 
 @Schema(description = "管理后台 - 老人入住信息新增/修改 Request VO")
 @Data
-public class CheckInSaveReqVO {
+public class CheckInSaveReqVO { 
 
     @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "29770")
     private Long id;
@@ -22,4 +22,9 @@ public class CheckInSaveReqVO {
     @Schema(description = "合同上传")
     private String attachmentPath;
 
+    @Schema(description = "床位编号", example = "101")
+    private Long bedId;
+
+    @Schema(description = "床位名称", example = "101 号床位")
+    private String bedName;
 }

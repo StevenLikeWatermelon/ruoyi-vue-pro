@@ -10,7 +10,7 @@ import com.alibaba.excel.annotation.*;
 @Schema(description = "管理后台 - 老人入住信息 Response VO")
 @Data
 @ExcelIgnoreUnannotated
-public class CheckInRespVO {
+public class CheckInRespVO { 
 
     @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "29770")
     @ExcelProperty("编号")
@@ -44,4 +44,11 @@ public class CheckInRespVO {
     @ExcelProperty("更新时间")
     private LocalDateTime updateTime;
 
+    @Schema(description = "床位编号", example = "101")
+    @ExcelProperty("床位编号")
+    private Long bedId;
+
+    @Schema(description = "床位名称", example = "101 号床位")
+    @ExcelProperty("床位名称")
+    private String bedName;
 }

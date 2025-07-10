@@ -39,6 +39,12 @@ public class CheckInDO extends BaseDO {
      * 合同上传
      */
     private String attachmentPath;
-
-
+    /**
+     * 床位编号
+     */
+    private Long bedId;
+    /**
+     * 床位名称
+     */
+    private String bedName;
 }

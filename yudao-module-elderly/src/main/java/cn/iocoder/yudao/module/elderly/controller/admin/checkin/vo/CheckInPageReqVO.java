@@ -11,7 +11,7 @@ import static cn.iocoder.yudao.framework.common.util.date.DateUtils.FORMAT_YEAR_
 
 @Schema(description = "管理后台 - 老人入住信息分页 Request VO")
 @Data
-public class CheckInPageReqVO extends PageParam {
+public class CheckInPageReqVO extends PageParam { 
 
     @Schema(description = "编号", example = "29770")
     private Long id;
@@ -32,4 +32,9 @@ public class CheckInPageReqVO extends PageParam {
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     private LocalDateTime[] createTime;
 
+    @Schema(description = "床位编号", example = "101")
+    private Long bedId;
+
+    @Schema(description = "床位名称", example = "101 号床位")
+    private String bedName;
 }
