@@ -59,4 +59,12 @@ public interface CheckInService {
      */
     PageResult<CheckInDO> getCheckInPage(CheckInPageReqVO pageReqVO);
 
+    /**
+     * 更新老人入住状态
+     *
+     * @param id 编号
+     * @param status 状态
+     */
+    void updateCheckInStatus(Long id, Integer status);
+
 }

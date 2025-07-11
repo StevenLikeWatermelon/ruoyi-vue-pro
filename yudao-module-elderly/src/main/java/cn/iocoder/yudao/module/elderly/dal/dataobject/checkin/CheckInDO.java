@@ -51,4 +51,9 @@ public class CheckInDO extends BaseDO {
      * 工作流实例编号
      */
     private String processInstanceId;
+    /**
+     * 工作流实例状态
+     */
+    private String status;
+
 }

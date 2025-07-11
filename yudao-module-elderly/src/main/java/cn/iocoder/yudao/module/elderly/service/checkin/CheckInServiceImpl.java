@@ -56,8 +56,10 @@ public class CheckInServiceImpl implements CheckInService {
         String processInstanceId = processInstanceApi.createProcessInstance(userId,
                 new BpmProcessInstanceCreateReqDTO().setProcessDefinitionKey(PROCESS_KEY)
                         .setVariables(processInstanceVariables).setBusinessKey(String.valueOf(checkIn.getId())));
-         // 将工作流的编号 赋值给 checkIn
-        checkIn.setProcessInstanceId(processInstanceId);
+        // 打印processInstanceId
+        System.out.println(processInstanceId);
+        // 将工作流的编号，更新到老人入住订单中
+        checkInMapper.updateById(new CheckInDO().setId(checkIn.getId()).setProcessInstanceId(processInstanceId));
         // 返回
         return checkIn.getId();
     }
@@ -108,6 +110,17 @@ public class CheckInServiceImpl implements CheckInService {
     @Override
     public PageResult<CheckInDO> getCheckInPage(CheckInPageReqVO pageReqVO) {
         return checkInMapper.selectPage(pageReqVO);
+    }
+
+    @Override
+    public void updateCheckInStatus(Long id, Integer status) {
+        // 校验存在
+        validateCheckInExists(id);
+        // 更新状态
+        CheckInDO updateObj = new CheckInDO();
+        updateObj.setId(id);
+        updateObj.setStatus(String.valueOf(status));
+        checkInMapper.updateById(updateObj);
     }
 
 }

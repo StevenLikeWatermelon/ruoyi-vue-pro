@@ -57,11 +57,6 @@
 
         <!-- Flowable 工作流相关 -->
         <dependency>
-            <groupId>cn.iocoder.boot</groupId>
-            <artifactId>yudao-module-bpm</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
             <groupId>org.flowable</groupId>
             <artifactId>flowable-spring-boot-starter-process</artifactId>
         </dependency>

@@ -37,4 +37,11 @@ public class CheckInPageReqVO extends PageParam {
 
     @Schema(description = "床位名称", example = "101 号床位")
     private String bedName;
+    // processInstanceId和status
+    @Schema(description = "工作流实例编号")
+    private String processInstanceId;
+
+    @Schema(description = "工作流实例状态")
+    private String status;
+    
 }

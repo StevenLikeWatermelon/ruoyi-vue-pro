@@ -21,6 +21,8 @@ public class BpmElderCheckInStatusListener extends BpmProcessInstanceStatusEvent
 
     @Override
     protected void onEvent(BpmProcessInstanceStatusEvent event) {
+        // 打印触发了
+        System.out.println("打印触发了");
         checkInService.updateCheckInStatus(Long.parseLong(event.getBusinessKey()), event.getStatus());
     }
 
