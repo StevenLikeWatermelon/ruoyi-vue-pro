@@ -47,4 +47,8 @@ public class CheckInDO extends BaseDO {
      * 床位名称
      */
     private String bedName;
+    /**
+     * 工作流实例编号
+     */
+    private String processInstanceId;
 }

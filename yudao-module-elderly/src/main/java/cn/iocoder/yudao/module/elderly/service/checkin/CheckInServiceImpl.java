@@ -18,7 +18,10 @@ import cn.iocoder.yudao.module.elderly.dal.mysql.checkin.CheckInMapper;
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.diffList;
+import cn.iocoder.yudao.module.bpm.api.task.BpmProcessInstanceApi;
+import cn.iocoder.yudao.module.bpm.api.task.dto.BpmProcessInstanceCreateReqDTO;
 import static cn.iocoder.yudao.module.elderly.enums.ErrorCodeConstants.*;
+import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
 /**
  * 老人入住信息 Service 实现类
@@ -32,11 +35,29 @@ public class CheckInServiceImpl implements CheckInService {
     @Resource
     private CheckInMapper checkInMapper;
 
+    public static final String PROCESS_KEY = "elderly_check_in";
+
+    @Resource
+    private BpmProcessInstanceApi processInstanceApi;
+
     @Override
     public Long createCheckIn(CheckInSaveReqVO createReqVO) {
         // 插入
         CheckInDO checkIn = BeanUtils.toBean(createReqVO, CheckInDO.class);
         checkInMapper.insert(checkIn);
+
+         // 发起 BPM 流程
+        // 获取备注
+        String note = createReqVO.getNotes();
+        Map<String, Object> processInstanceVariables = new HashMap<>();
+        // 获取当前用户
+        Long userId = getLoginUserId();
+        processInstanceVariables.put("note", note);
+        String processInstanceId = processInstanceApi.createProcessInstance(userId,
+                new BpmProcessInstanceCreateReqDTO().setProcessDefinitionKey(PROCESS_KEY)
+                        .setVariables(processInstanceVariables).setBusinessKey(String.valueOf(checkIn.getId())));
+         // 将工作流的编号 赋值给 checkIn
+        checkIn.setProcessInstanceId(processInstanceId);
         // 返回
         return checkIn.getId();
     }
