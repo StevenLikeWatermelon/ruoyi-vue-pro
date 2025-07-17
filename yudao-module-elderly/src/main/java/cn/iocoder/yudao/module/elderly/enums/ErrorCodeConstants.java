@@ -25,4 +25,8 @@ public interface ErrorCodeConstants {
     ErrorCode CHECK_IN_NOT_EXISTS = new ErrorCode(1_005_001_000, "老人入住信息不存在");
     // ========== 任务节点管理 1_006_001_000 ==========
     ErrorCode TASK_NODE_NOT_EXISTS = new ErrorCode(1_006_001_000, "任务节点管理不存在");
+    // ========== 任务信息管理 1_007_001_000 ==========
+    ErrorCode TASK_INFO_NOT_EXISTS = new ErrorCode(1_007_001_000, "任务信息管理不存在");
+
+    ErrorCode TASK_EXCUTED_NOT_EXISTS = new ErrorCode(1_008_001_000, "任务编排执行管理不存在");
 }
