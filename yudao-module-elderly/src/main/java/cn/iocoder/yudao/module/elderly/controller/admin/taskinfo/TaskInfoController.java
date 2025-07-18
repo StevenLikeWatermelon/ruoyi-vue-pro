@@ -28,6 +28,8 @@ import static cn.iocoder.yudao.framework.apilog.core.enums.OperateTypeEnum.*;
 import cn.iocoder.yudao.module.elderly.controller.admin.taskinfo.vo.*;
 import cn.iocoder.yudao.module.elderly.dal.dataobject.taskinfo.TaskInfoDO;
 import cn.iocoder.yudao.module.elderly.service.taskinfo.TaskInfoService;
+import cn.iocoder.yudao.module.elderly.service.tasknode.TaskNodeService;
+import cn.iocoder.yudao.module.elderly.dal.dataobject.tasknode.TaskNodeDO;
 
 @Tag(name = "管理后台 - 任务信息管理")
 @RestController
@@ -37,6 +39,9 @@ public class TaskInfoController {
 
     @Resource
     private TaskInfoService taskInfoService;
+
+    @Resource
+    private TaskNodeService taskNodeService;
 
     @PostMapping("/create")
     @Operation(summary = "创建任务信息管理")
@@ -85,7 +90,19 @@ public class TaskInfoController {
     @PreAuthorize("@ss.hasPermission('elderly:task-info:query')")
     public CommonResult<PageResult<TaskInfoRespVO>> getTaskInfoPage(@Valid TaskInfoPageReqVO pageReqVO) {
         PageResult<TaskInfoDO> pageResult = taskInfoService.getTaskInfoPage(pageReqVO);
-        return success(BeanUtils.toBean(pageResult, TaskInfoRespVO.class));
+        // 处理 nodeName
+        List<TaskInfoRespVO> voList = new ArrayList<>();
+        for (TaskInfoDO taskInfo : pageResult.getList()) {
+            TaskInfoRespVO vo = BeanUtils.toBean(taskInfo, TaskInfoRespVO.class);
+            if (taskInfo.getNodeId() != null) {
+                TaskNodeDO node = taskNodeService.getTaskNode(taskInfo.getNodeId());
+                if (node != null) {
+                    vo.setNodeName(node.getName());
+                }
+            }
+            voList.add(vo);
+        }
+        return success(new PageResult<>(voList, pageResult.getTotal()));
     }
 
     @GetMapping("/export-excel")
