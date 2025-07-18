@@ -31,10 +31,10 @@ public class TaskInfoPageReqVO extends PageParam {
     private String[] endTime;
 
     @Schema(description = "任务关联的节点id", example = "13658")
-    private String nodeId;
+    private Long nodeId;
 
     @Schema(description = "任务执行id")
-    private String executeId;
+    private Long executeId;
 
     @Schema(description = "任务服务客户")
     private String serviceCustomer;

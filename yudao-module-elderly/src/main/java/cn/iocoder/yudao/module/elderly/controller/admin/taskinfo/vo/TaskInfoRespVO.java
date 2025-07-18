@@ -41,7 +41,13 @@ public class TaskInfoRespVO {
 
     @Schema(description = "任务关联的节点id", requiredMode = Schema.RequiredMode.REQUIRED, example = "13658")
     @ExcelProperty("任务关联的节点id")
-    private String nodeId;
+    private Long nodeId;
+
+    // NodeName
+     @Schema(description = "任务关联的节点名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "13658")
+    @ExcelProperty("任务关联的节点名称")
+    private String NodeName;
+
 
     @Schema(description = "备注", example = "你说的对")
     @ExcelProperty("备注")
