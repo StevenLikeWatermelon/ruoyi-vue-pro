@@ -61,11 +61,6 @@ public class TaskInfoDO extends BaseDO {
      * 任务关联的节点id
      */
     private Long nodeId;
-
-    /**
-     * 任务节点名称
-     */
-    private String nodeName;
     /**
      * 任务状态
      */
