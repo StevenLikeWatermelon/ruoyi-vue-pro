@@ -51,6 +51,10 @@ public class TaskExcutedRespVO {
     @ExcelProperty("备注")
     private String remark;
 
+    @Schema(description = "任务内容", example = "你说的对")
+    @ExcelProperty("任务内容")
+    private String content;
+
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
     @ExcelProperty("创建时间")
     private LocalDateTime createTime;

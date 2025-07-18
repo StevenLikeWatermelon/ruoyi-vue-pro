@@ -39,7 +39,6 @@ public class TaskInfoSaveReqVO {
     private String locationList;
 
     @Schema(description = "任务关联的节点id", requiredMode = Schema.RequiredMode.REQUIRED, example = "13658")
-    @NotEmpty(message = "任务关联的节点id不能为空")
     private Long nodeId;
 
     @Schema(description = "任务执行id")

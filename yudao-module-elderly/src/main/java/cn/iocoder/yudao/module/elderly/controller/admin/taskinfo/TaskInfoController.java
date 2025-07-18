@@ -98,6 +98,9 @@ public class TaskInfoController {
                 TaskNodeDO node = taskNodeService.getTaskNode(taskInfo.getNodeId());
                 if (node != null) {
                     vo.setNodeName(node.getName());
+                    vo.setNeedPhoto(node.getNeedPhoto());
+                    vo.setNeedLocation(node.getNeedLocation());
+                    vo.setNeedTime(node.getNeedTime());
                 }
             }
             voList.add(vo);

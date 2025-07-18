@@ -49,6 +49,20 @@ public class TaskInfoRespVO {
     private String NodeName;
 
 
+    @Schema(description = "是否需要拍照", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ExcelProperty("是否需要拍照")
+    private Boolean needPhoto;
+
+    @Schema(description = "是否需要定位", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ExcelProperty("是否需要定位")
+    private Boolean needLocation;
+
+    @Schema(description = "是否需要按时完成", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ExcelProperty("是否需要按时完成")
+    private Boolean needTime;
+
+
+
     @Schema(description = "备注", example = "你说的对")
     @ExcelProperty("备注")
     private String remark;
