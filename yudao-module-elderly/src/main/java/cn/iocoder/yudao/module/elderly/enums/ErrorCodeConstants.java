@@ -29,4 +29,6 @@ public interface ErrorCodeConstants {
     ErrorCode TASK_INFO_NOT_EXISTS = new ErrorCode(1_007_001_000, "任务信息管理不存在");
 
     ErrorCode TASK_EXCUTED_NOT_EXISTS = new ErrorCode(1_008_001_000, "任务编排执行管理不存在");
+    // ========== 老人费用余额 1_009_001_000 ==========
+    ErrorCode FEES_OVERVIEW_NOT_EXISTS = new ErrorCode(1_009_001_000, "老人费用余额不存在");
 }
