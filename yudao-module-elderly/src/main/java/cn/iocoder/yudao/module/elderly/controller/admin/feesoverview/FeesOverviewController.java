@@ -49,6 +49,16 @@ public class FeesOverviewController {
     @Operation(summary = "更新老人费用余额")
     @PreAuthorize("@ss.hasPermission('elderly:fees-overview:update')")
     public CommonResult<Boolean> updateFeesOverview(@Valid @RequestBody FeesOverviewSaveReqVO updateReqVO) {
+        // 如果接口入参里有addBalance，说明是新增金额，要把addBalance加到balance上，然后更新balance
+        if (updateReqVO.getAddBalance() != null) {
+            updateReqVO.setBalance(updateReqVO.getBalance().add(updateReqVO.getAddBalance()));
+            updateReqVO.setAddBalance(null);
+        }
+        // 如果接口入参里有subBalance，说明是减少金额，要把subBalance从balance上减去，然后更新balance
+        if (updateReqVO.getSubBalance() != null) {
+            updateReqVO.setBalance(updateReqVO.getBalance().subtract(updateReqVO.getSubBalance()));
+            updateReqVO.setSubBalance(null);
+        }
         feesOverviewService.updateFeesOverview(updateReqVO);
         return success(true);
     }

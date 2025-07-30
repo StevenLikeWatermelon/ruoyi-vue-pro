@@ -21,6 +21,12 @@ public class FeesOverviewSaveReqVO {
     @NotNull(message = "余额不能为空")
     private BigDecimal balance;
 
+    @Schema(description = "新增金额", example = "100.00")
+    private BigDecimal addBalance;
+
+    @Schema(description = "减少金额", example = "50.00")
+    private BigDecimal subBalance;
+
     @Schema(description = "备注", example = "你猜")
     private String remark;
 
