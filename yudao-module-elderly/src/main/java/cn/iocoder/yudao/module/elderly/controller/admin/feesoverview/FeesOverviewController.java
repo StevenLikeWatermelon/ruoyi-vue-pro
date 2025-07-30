@@ -28,6 +28,8 @@ import static cn.iocoder.yudao.framework.apilog.core.enums.OperateTypeEnum.*;
 import cn.iocoder.yudao.module.elderly.controller.admin.feesoverview.vo.*;
 import cn.iocoder.yudao.module.elderly.dal.dataobject.feesoverview.FeesOverviewDO;
 import cn.iocoder.yudao.module.elderly.service.feesoverview.FeesOverviewService;
+import cn.iocoder.yudao.module.elderly.controller.admin.feesoperaterecord.vo.FeesOperateRecordSaveReqVO;
+import cn.iocoder.yudao.module.elderly.service.feesoperaterecord.FeesOperateRecordService;
 
 @Tag(name = "管理后台 - 老人费用余额")
 @RestController
@@ -38,10 +40,20 @@ public class FeesOverviewController {
     @Resource
     private FeesOverviewService feesOverviewService;
 
+    @Resource
+    private FeesOperateRecordService feesOperateRecordService;
+
     @PostMapping("/create")
     @Operation(summary = "创建老人费用余额")
     @PreAuthorize("@ss.hasPermission('elderly:fees-overview:create')")
     public CommonResult<Long> createFeesOverview(@Valid @RequestBody FeesOverviewSaveReqVO createReqVO) {
+        // 创建费用操作记录
+         FeesOperateRecordSaveReqVO feesOperateRecordSaveReqVO = new FeesOperateRecordSaveReqVO();
+        feesOperateRecordSaveReqVO.setElderlyId(createReqVO.getElderlyId());
+        feesOperateRecordSaveReqVO.setRemark(createReqVO.getRemark());
+        feesOperateRecordSaveReqVO.setOperateType("add");
+        feesOperateRecordSaveReqVO.setOperateAmount(createReqVO.getBalance());
+        feesOperateRecordService.createFeesOperateRecord(feesOperateRecordSaveReqVO);
         return success(feesOverviewService.createFeesOverview(createReqVO));
     }
 
@@ -49,13 +61,24 @@ public class FeesOverviewController {
     @Operation(summary = "更新老人费用余额")
     @PreAuthorize("@ss.hasPermission('elderly:fees-overview:update')")
     public CommonResult<Boolean> updateFeesOverview(@Valid @RequestBody FeesOverviewSaveReqVO updateReqVO) {
+        // 调用feesoperaterecord中的createFeesOperateRecord方法，创建费用操作记录
+        FeesOperateRecordSaveReqVO feesOperateRecordSaveReqVO = new FeesOperateRecordSaveReqVO();
+        feesOperateRecordSaveReqVO.setElderlyId(updateReqVO.getElderlyId());
+        feesOperateRecordSaveReqVO.setRemark(updateReqVO.getRemark());
+        
         // 如果接口入参里有addBalance，说明是新增金额，要把addBalance加到balance上，然后更新balance
         if (updateReqVO.getAddBalance() != null) {
+            feesOperateRecordSaveReqVO.setOperateType("add");
+            feesOperateRecordSaveReqVO.setOperateAmount(updateReqVO.getAddBalance());
+            // 创建记录
+            feesOperateRecordService.createFeesOperateRecord(feesOperateRecordSaveReqVO);
             updateReqVO.setBalance(updateReqVO.getBalance().add(updateReqVO.getAddBalance()));
             updateReqVO.setAddBalance(null);
-        }
-        // 如果接口入参里有subBalance，说明是减少金额，要把subBalance从balance上减去，然后更新balance
-        if (updateReqVO.getSubBalance() != null) {
+        }else if (updateReqVO.getSubBalance() != null) {
+            feesOperateRecordSaveReqVO.setOperateType("sub");
+            feesOperateRecordSaveReqVO.setOperateAmount(updateReqVO.getSubBalance());
+            // 创建记录
+            feesOperateRecordService.createFeesOperateRecord(feesOperateRecordSaveReqVO);
             updateReqVO.setBalance(updateReqVO.getBalance().subtract(updateReqVO.getSubBalance()));
             updateReqVO.setSubBalance(null);
         }

@@ -37,4 +37,9 @@ public class FeesOperateRecordRespVO {
     @ExcelProperty("创建时间")
     private LocalDateTime createTime;
 
+    @Schema(description = "创建者")
+    @ExcelProperty("创建者")
+    private String creator;
+
+
 }
