@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.elderly.service.feesoverview;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.iocoder.yudao.module.elderly.controller.admin.feesoperaterecord.vo.FeesOperateRecordSaveReqVO;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +24,8 @@ import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionU
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.diffList;
 import static cn.iocoder.yudao.module.elderly.enums.ErrorCodeConstants.*;
+import cn.iocoder.yudao.module.elderly.service.feesoperaterecord.FeesOperateRecordService;
+import cn.iocoder.yudao.module.elderly.service.feesoverview.FeesOverviewService;
 
 /**
  * 老人费用余额 Service 实现类
@@ -42,6 +45,10 @@ public class FeesOverviewServiceImpl implements FeesOverviewService {
     @Resource
     private InfoBasicService infoBasicService;
 
+    @Resource
+    private FeesOperateRecordService feesOperateRecordService;
+
+
     @Override
     public Long createFeesOverview(FeesOverviewSaveReqVO createReqVO) {
         // 插入
@@ -60,6 +67,27 @@ public class FeesOverviewServiceImpl implements FeesOverviewService {
 
     @Override
     public void updateFeesOverview(FeesOverviewSaveReqVO updateReqVO) {
+        // 调用feesoperaterecord中的createFeesOperateRecord方法，创建费用操作记录
+        FeesOperateRecordSaveReqVO feesOperateRecordSaveReqVO = new FeesOperateRecordSaveReqVO();
+        feesOperateRecordSaveReqVO.setElderlyId(updateReqVO.getElderlyId());
+        feesOperateRecordSaveReqVO.setRemark(updateReqVO.getRemark());
+        
+        // 如果接口入参里有addBalance，说明是新增金额，要把addBalance加到balance上，然后更新balance
+        if (updateReqVO.getAddBalance() != null) {
+            feesOperateRecordSaveReqVO.setOperateType("add");
+            feesOperateRecordSaveReqVO.setOperateAmount(updateReqVO.getAddBalance());
+            // 创建记录
+            feesOperateRecordService.createFeesOperateRecord(feesOperateRecordSaveReqVO);
+            updateReqVO.setBalance(updateReqVO.getBalance().add(updateReqVO.getAddBalance()));
+            updateReqVO.setAddBalance(null);
+        }else if (updateReqVO.getSubBalance() != null) {
+            feesOperateRecordSaveReqVO.setOperateType("sub");
+            feesOperateRecordSaveReqVO.setOperateAmount(updateReqVO.getSubBalance());
+            // 创建记录
+            feesOperateRecordService.createFeesOperateRecord(feesOperateRecordSaveReqVO);
+            updateReqVO.setBalance(updateReqVO.getBalance().subtract(updateReqVO.getSubBalance()));
+            updateReqVO.setSubBalance(null);
+        }
         // 校验存在
         validateFeesOverviewExists(updateReqVO.getId());
         // 更新

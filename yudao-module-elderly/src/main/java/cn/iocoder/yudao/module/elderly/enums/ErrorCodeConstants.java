@@ -23,7 +23,8 @@ public interface ErrorCodeConstants {
     ErrorCode VISIT_REGISTRATION_NOT_EXISTS = new ErrorCode(1_004_001_000, "来访登记不存在");
     // ========== 老人入住信息 1_005_001_000 ==========
     ErrorCode CHECK_IN_NOT_EXISTS = new ErrorCode(1_005_001_000, "老人入住信息不存在");
-    ErrorCode CHECK_IN_STATUS_ERROR = new ErrorCode(1_005_001_001, "老人入住信息已审核，不能删除");
+    ErrorCode CHECK_IN_EXISTS = new ErrorCode(1_005_001_001, "老人入住信息已存在");
+    ErrorCode CHECK_IN_STATUS_ERROR = new ErrorCode(1_005_001_002, "老人入住信息已审核，不能删除");
     // ========== 任务节点管理 1_006_001_000 ==========
     ErrorCode TASK_NODE_NOT_EXISTS = new ErrorCode(1_006_001_000, "任务节点管理不存在");
     // ========== 任务信息管理 1_007_001_000 ==========
@@ -31,7 +32,7 @@ public interface ErrorCodeConstants {
 
     ErrorCode TASK_EXCUTED_NOT_EXISTS = new ErrorCode(1_008_001_000, "任务编排执行管理不存在");
     // ========== 老人费用余额 1_009_001_000 ==========
-    ErrorCode FEES_OVERVIEW_NOT_EXISTS = new ErrorCode(1_009_001_000, "老人费用余额不存在");
+    ErrorCode FEES_OVERVIEW_NOT_EXISTS = new ErrorCode(1_009_001_000, "老人费用余额不存在，请先创建老人余额");
     // FEES_OVERVIEW_EXISTS
     ErrorCode FEES_OVERVIEW_EXISTS = new ErrorCode(1_009_001_001, "老人费用余额已存在");
     // ========== 费用操作记录 1_010_001_000 ==========

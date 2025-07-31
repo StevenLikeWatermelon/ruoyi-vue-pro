@@ -22,6 +22,12 @@ import cn.iocoder.yudao.module.bpm.api.task.BpmProcessInstanceApi;
 import cn.iocoder.yudao.module.bpm.api.task.dto.BpmProcessInstanceCreateReqDTO;
 import static cn.iocoder.yudao.module.elderly.enums.ErrorCodeConstants.*;
 import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
+import cn.iocoder.yudao.module.elderly.service.feesdailyconsumpt.FeesDailyConsumptService;
+import cn.iocoder.yudao.module.elderly.service.feesoverview.FeesOverviewService;
+import cn.iocoder.yudao.module.elderly.dal.dataobject.feesdailyconsumpt.FeesDailyConsumptDO;
+import cn.iocoder.yudao.module.elderly.dal.dataobject.feesoverview.FeesOverviewDO;
+import cn.iocoder.yudao.module.elderly.controller.admin.feesoverview.vo.FeesOverviewSaveReqVO;
+import java.math.BigDecimal;
 
 /**
  * 老人入住信息 Service 实现类
@@ -34,6 +40,10 @@ public class CheckInServiceImpl implements CheckInService {
 
     @Resource
     private CheckInMapper checkInMapper;
+    @Resource
+    private FeesDailyConsumptService feesDailyConsumptService;
+    @Resource
+    private FeesOverviewService feesOverviewService;
 
     public static final String PROCESS_KEY = "elderly_check_in";
 
@@ -42,6 +52,51 @@ public class CheckInServiceImpl implements CheckInService {
 
     @Override
     public Long createCheckIn(CheckInSaveReqVO createReqVO) {
+        // 获取createReqVO中的visitorName。作为老人标记elderlyId
+        Long elderlyId = createReqVO.getVisitorName();
+        // 老人的id就是id
+        CheckInDO checkInDO = getCheckIn(elderlyId);
+        // 打印checkInDO
+        System.out.println("checkInDO");
+        System.out.println(checkInDO);
+        // 校验checkInDO是否存在
+        if (checkInDO != null) {
+            throw exception(CHECK_IN_EXISTS);
+        }
+        createReqVO.setId(elderlyId);
+        // 获取createReqVO里面的dailyConsumptId
+        String dailyConsumptId = createReqVO.getDailyConsumptId();
+        // 打印dailyConsumptId
+        System.out.println("dailyConsumptId");
+        System.out.println(dailyConsumptId);
+        // dailyConsumptId转化为数字
+        Long dailyConsumptIdLong = Long.valueOf(dailyConsumptId);
+        // 获取feesDailyConsumptDO中的totalMoney
+        FeesDailyConsumptDO feesDailyConsumptDO = feesDailyConsumptService.getFeesDailyConsumpt(dailyConsumptIdLong);
+        BigDecimal totalMoney = feesDailyConsumptDO.getTotalMoney();
+        // 打印totalMoney
+        System.out.println("totalMoney");
+        System.out.println(totalMoney);
+        // 获取createReqVO中的overviewId
+        FeesOverviewDO feesOverview = feesOverviewService.getFeesOverview(elderlyId);
+        // 先校验余额是否存在
+        if (feesOverview == null) {
+            throw exception(FEES_OVERVIEW_NOT_EXISTS);
+        }
+        long overviewId = feesOverview.getId();
+        BigDecimal balance = feesOverview.getBalance();
+
+        System.out.println("balance");
+        System.out.println(balance);
+        // 调用feesOverviewController中updateFeesOverview方法，更新余额，设置addBalance为null，subBalance为totalMoney，remark为"老人入住扣除"
+        FeesOverviewSaveReqVO feesOverviewSaveReqVO = new FeesOverviewSaveReqVO();
+        feesOverviewSaveReqVO.setId(overviewId);
+        feesOverviewSaveReqVO.setElderlyId(elderlyId);
+        feesOverviewSaveReqVO.setBalance(balance);
+        feesOverviewSaveReqVO.setAddBalance(null);
+        feesOverviewSaveReqVO.setSubBalance(totalMoney);
+        feesOverviewSaveReqVO.setRemark("老人入住扣除");
+        feesOverviewService.updateFeesOverview(feesOverviewSaveReqVO);
         // 插入
         CheckInDO checkIn = BeanUtils.toBean(createReqVO, CheckInDO.class);
         checkInMapper.insert(checkIn);
