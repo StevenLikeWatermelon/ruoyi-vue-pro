@@ -33,4 +33,6 @@ public interface ErrorCodeConstants {
     ErrorCode FEES_OVERVIEW_NOT_EXISTS = new ErrorCode(1_009_001_000, "老人费用余额不存在");
     // ========== 费用操作记录 1_010_001_000 ==========
     ErrorCode FEES_OPERATE_RECORD_NOT_EXISTS = new ErrorCode(1_010_001_000, "费用操作记录不存在");
+    // ========== 日常消费 1_011_001_000 ==========
+    ErrorCode FEES_DAILY_CONSUMPT_NOT_EXISTS = new ErrorCode(1_011_001_000, "日常消费不存在");
 }
