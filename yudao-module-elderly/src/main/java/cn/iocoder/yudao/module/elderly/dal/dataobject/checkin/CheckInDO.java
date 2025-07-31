@@ -56,8 +56,8 @@ public class CheckInDO extends BaseDO {
      */
     private String status;
     /**
-     * 是否删除
+     * 消费套餐ID
      */
-    private Boolean deleted;
+    private String dailyConsumptId;
 
 }

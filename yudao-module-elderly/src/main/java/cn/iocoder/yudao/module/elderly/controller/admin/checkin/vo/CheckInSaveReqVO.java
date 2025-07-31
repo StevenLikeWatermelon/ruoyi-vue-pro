@@ -33,4 +33,7 @@ public class CheckInSaveReqVO {
 
     @Schema(description = "工作流实例状态")
     private String status;
+    
+    @Schema(description = "消费套餐ID", example = "套餐1")
+    private String dailyConsumptId;
 }

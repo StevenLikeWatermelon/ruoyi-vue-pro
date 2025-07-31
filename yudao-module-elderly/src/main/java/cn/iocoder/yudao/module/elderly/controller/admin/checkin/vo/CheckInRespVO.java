@@ -60,6 +60,10 @@ public class CheckInRespVO {
     @ExcelProperty("工作流实例状态")
     private String status;
 
+    @Schema(description = "消费套餐ID", example = "套餐1")
+    @ExcelProperty("消费套餐ID")
+    private String dailyConsumptId;
+
     @Schema(description = "是否删除", requiredMode = Schema.RequiredMode.REQUIRED)
     @ExcelProperty("是否删除")
     private Boolean deleted;
