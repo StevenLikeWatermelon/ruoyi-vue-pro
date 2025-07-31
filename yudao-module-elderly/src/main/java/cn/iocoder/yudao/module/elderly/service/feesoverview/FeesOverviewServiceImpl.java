@@ -46,6 +46,13 @@ public class FeesOverviewServiceImpl implements FeesOverviewService {
     public Long createFeesOverview(FeesOverviewSaveReqVO createReqVO) {
         // 插入
         FeesOverviewDO feesOverview = BeanUtils.toBean(createReqVO, FeesOverviewDO.class);
+        // 用getFeesOverview校验老人是否存在
+        FeesOverviewDO feesOverviewExist = getFeesOverview(createReqVO.getElderlyId());
+        if (feesOverviewExist != null) {
+            throw exception(FEES_OVERVIEW_EXISTS);
+        }
+        // 插入id就以elderlyId
+        feesOverview.setId(createReqVO.getElderlyId());
         feesOverviewMapper.insert(feesOverview);
         // 返回
         return feesOverview.getId();
