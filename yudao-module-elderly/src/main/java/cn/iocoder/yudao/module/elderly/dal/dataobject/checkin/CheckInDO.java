@@ -30,7 +30,7 @@ public class CheckInDO extends BaseDO {
     /**
      * 入住老人
      */
-    private String visitorName;
+    private Long visitorName;
     /**
      * 备注
      */
