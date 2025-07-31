@@ -20,7 +20,7 @@ public interface CheckInMapper extends BaseMapperX<CheckInDO> {
     default PageResult<CheckInDO> selectPage(CheckInPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<CheckInDO>()
                 .eqIfPresent(CheckInDO::getId, reqVO.getId())
-                .likeIfPresent(CheckInDO::getVisitorName, String.valueOf(reqVO.getVisitorName()))
+                .likeIfPresent(CheckInDO::getVisitorName, reqVO.getVisitorName())
                 .eqIfPresent(CheckInDO::getNotes, reqVO.getNotes())
                 .eqIfPresent(CheckInDO::getAttachmentPath, reqVO.getAttachmentPath())
                 .eqIfPresent(CheckInDO::getCreator, reqVO.getCreator())
