@@ -20,7 +20,7 @@ public interface FeesDailyConsumptMapper extends BaseMapperX<FeesDailyConsumptDO
     default PageResult<FeesDailyConsumptDO> selectPage(FeesDailyConsumptPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<FeesDailyConsumptDO>()
                 .eqIfPresent(FeesDailyConsumptDO::getId, reqVO.getId())
-                .eqIfPresent(FeesDailyConsumptDO::getOperateType, reqVO.getOperateType())
+                .likeIfPresent(FeesDailyConsumptDO::getOperateType, reqVO.getOperateType())
                 .eqIfPresent(FeesDailyConsumptDO::getConsumptIdList, reqVO.getConsumptIdList())
                 .eqIfPresent(FeesDailyConsumptDO::getConsumptMoneyList, reqVO.getConsumptMoneyList())
                 .eqIfPresent(FeesDailyConsumptDO::getTotalMoney, reqVO.getTotalMoney())
