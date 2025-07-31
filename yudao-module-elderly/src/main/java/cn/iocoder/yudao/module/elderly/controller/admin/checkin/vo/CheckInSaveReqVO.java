@@ -13,8 +13,7 @@ public class CheckInSaveReqVO {
     private Long id;
 
     @Schema(description = "入住老人", requiredMode = Schema.RequiredMode.REQUIRED, example = "张三")
-    @NotEmpty(message = "入住老人不能为空")
-    private String visitorName;
+    private Long visitorName;
 
     @Schema(description = "备注")
     private String notes;
@@ -36,4 +35,7 @@ public class CheckInSaveReqVO {
     
     @Schema(description = "消费套餐ID", example = "套餐1")
     private String dailyConsumptId;
+
+    @Schema(description = "老人费用余额ID", example = "101")
+    private Long overviewId;
 }

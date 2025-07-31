@@ -17,7 +17,7 @@ public class CheckInPageReqVO extends PageParam {
     private Long id;
 
     @Schema(description = "入住老人", example = "张三")
-    private String visitorName;
+    private Long visitorName;
 
     @Schema(description = "备注")
     private String notes;

@@ -18,7 +18,7 @@ public class CheckInRespVO {
 
     @Schema(description = "入住老人", requiredMode = Schema.RequiredMode.REQUIRED, example = "张三")
     @ExcelProperty("入住老人")
-    private String visitorName;
+    private Long visitorName;
 
     @Schema(description = "备注")
     @ExcelProperty("备注")
