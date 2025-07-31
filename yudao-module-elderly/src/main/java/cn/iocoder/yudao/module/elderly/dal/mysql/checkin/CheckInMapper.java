@@ -25,6 +25,7 @@ public interface CheckInMapper extends BaseMapperX<CheckInDO> {
                 .eqIfPresent(CheckInDO::getAttachmentPath, reqVO.getAttachmentPath())
                 .eqIfPresent(CheckInDO::getCreator, reqVO.getCreator())
                 .betweenIfPresent(CheckInDO::getCreateTime, reqVO.getCreateTime())
+                .eqIfPresent(CheckInDO::getDeleted, reqVO.getDeleted())
                 .orderByDesc(CheckInDO::getId));
     }
 

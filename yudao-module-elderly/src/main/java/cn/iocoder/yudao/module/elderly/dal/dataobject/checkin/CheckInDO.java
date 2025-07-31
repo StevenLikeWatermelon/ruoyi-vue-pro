@@ -55,5 +55,9 @@ public class CheckInDO extends BaseDO {
      * 工作流实例状态
      */
     private String status;
+    /**
+     * 是否删除
+     */
+    private Boolean deleted;
 
 }

@@ -59,4 +59,8 @@ public class CheckInRespVO {
     @Schema(description = "工作流实例状态")
     @ExcelProperty("工作流实例状态")
     private String status;
+
+    @Schema(description = "是否删除", requiredMode = Schema.RequiredMode.REQUIRED)
+    @ExcelProperty("是否删除")
+    private Boolean deleted;
 }

@@ -43,5 +43,9 @@ public class CheckInPageReqVO extends PageParam {
 
     @Schema(description = "工作流实例状态")
     private String status;
+
+
+    @Schema(description = "是否删除")
+    private Boolean deleted;
     
 }
