@@ -23,6 +23,7 @@ public interface ErrorCodeConstants {
     ErrorCode VISIT_REGISTRATION_NOT_EXISTS = new ErrorCode(1_004_001_000, "来访登记不存在");
     // ========== 老人入住信息 1_005_001_000 ==========
     ErrorCode CHECK_IN_NOT_EXISTS = new ErrorCode(1_005_001_000, "老人入住信息不存在");
+    ErrorCode CHECK_IN_STATUS_ERROR = new ErrorCode(1_005_001_001, "老人入住信息已审核，不能删除");
     // ========== 任务节点管理 1_006_001_000 ==========
     ErrorCode TASK_NODE_NOT_EXISTS = new ErrorCode(1_006_001_000, "任务节点管理不存在");
     // ========== 任务信息管理 1_007_001_000 ==========

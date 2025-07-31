@@ -77,8 +77,24 @@ public class CheckInServiceImpl implements CheckInService {
     public void deleteCheckIn(Long id) {
         // 校验存在
         validateCheckInExists(id);
-        // 删除
-        checkInMapper.deleteById(id);
+        CheckInDO checkInDO = checkInMapper.selectById(id);
+        // 用getCheckIn，根据id获取status
+        CheckInDO checkIn = getCheckIn(id);
+        String status = checkIn.getStatus();
+        String processInstanceId = checkIn.getProcessInstanceId();
+        // 打印status
+        System.out.println("processInstanceId");
+        System.out.println(processInstanceId);
+        System.out.println(status);
+        if (status != null) {
+            throw exception(CHECK_IN_STATUS_ERROR);
+        } else {
+            // 获取当前用户
+            Long userId = getLoginUserId();
+            processInstanceApi.cancelProcessInstance(userId, processInstanceId, "取消入住");
+            // 删除
+            checkInMapper.deleteById(id);
+        }
     }
 
     @Override
