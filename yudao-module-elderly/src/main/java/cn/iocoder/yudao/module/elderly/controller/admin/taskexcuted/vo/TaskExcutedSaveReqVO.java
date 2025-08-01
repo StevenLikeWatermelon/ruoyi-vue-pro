@@ -47,4 +47,6 @@ public class TaskExcutedSaveReqVO {
     @Schema(description = "备注", example = "你说的对")
     private String remark;
 
+    @Schema(description = "执行负责人名称")
+    private String processInstanceId;
 }

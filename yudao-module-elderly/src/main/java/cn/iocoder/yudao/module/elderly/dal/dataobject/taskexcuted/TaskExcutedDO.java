@@ -50,13 +50,17 @@ public class TaskExcutedDO extends BaseDO {
      */
     private String endTime;
     /**
-     * 执行状态
-     */
-    private String status;
-    /**
      * 执行负责人
      */
     private String assignee;
+    /**
+     * 工作流实例编号
+     */
+    private String processInstanceId;
+    /**
+     * 工作流实例状态
+     */
+    private String status;
     /**
      * 执行负责人名称
      */
