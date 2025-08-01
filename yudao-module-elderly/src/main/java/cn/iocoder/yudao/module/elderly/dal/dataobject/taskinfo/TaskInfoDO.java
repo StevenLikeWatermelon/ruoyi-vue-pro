@@ -66,6 +66,10 @@ public class TaskInfoDO extends BaseDO {
      */
     private String status;
     /**
+     * 任务负责人
+     */
+    private String assignee;
+    /**
      * 任务执行id
      */
     private Long executeId;
