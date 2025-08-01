@@ -27,7 +27,6 @@ public interface TaskInfoMapper extends BaseMapperX<TaskInfoDO> {
                 .eqIfPresent(TaskInfoDO::getNodeId, reqVO.getNodeId())
                 .eqIfPresent(TaskInfoDO::getExecuteId, reqVO.getExecuteId())
                 .eqIfPresent(TaskInfoDO::getStatus, reqVO.getStatus())
-                .eqIfPresent(TaskInfoDO::getAssignee, reqVO.getAssignee())
                 .eqIfPresent(TaskInfoDO::getServiceCustomer, reqVO.getServiceCustomer())
                 .eqIfPresent(TaskInfoDO::getRemark, reqVO.getRemark())
                 .eqIfPresent(TaskInfoDO::getCreator, reqVO.getCreator())
