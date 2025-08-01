@@ -59,4 +59,12 @@ public interface TaskExcutedService {
      */
     PageResult<TaskExcutedDO> getTaskExcutedPage(TaskExcutedPageReqVO pageReqVO);
 
+    /**
+     * 更新任务编排执行管理的执行状态
+     *
+     * @param id 编号
+     * @param status 执行状态
+     */
+    void updateExcutedStatus(Long id, Integer status);
+
 }

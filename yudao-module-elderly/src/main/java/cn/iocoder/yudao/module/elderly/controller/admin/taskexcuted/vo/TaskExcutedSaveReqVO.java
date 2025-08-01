@@ -35,6 +35,9 @@ public class TaskExcutedSaveReqVO {
     @Schema(description = "执行状态", example = "2")
     private String excutedStatus;
 
+    @Schema(description = "审批状态")
+    private Integer status;
+
     @Schema(description = "执行负责人")
     private String assignee;
 

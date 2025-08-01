@@ -39,6 +39,10 @@ public class TaskExcutedRespVO {
     @ExcelProperty("执行状态")
     private String excutedStatus;
 
+    @Schema(description = "审批状态")
+    @ExcelProperty("审批状态")
+    private Integer status;
+
     @Schema(description = "执行负责人")
     @ExcelProperty("执行负责人")
     private String assignee;

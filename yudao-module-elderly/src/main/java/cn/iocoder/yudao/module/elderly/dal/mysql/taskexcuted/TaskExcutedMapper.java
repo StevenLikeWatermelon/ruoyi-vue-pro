@@ -24,6 +24,7 @@ public interface TaskExcutedMapper extends BaseMapperX<TaskExcutedDO> {
                 .betweenIfPresent(TaskExcutedDO::getStartTime, reqVO.getStartTime())
                 .betweenIfPresent(TaskExcutedDO::getEndTime, reqVO.getEndTime())
                 .eqIfPresent(TaskExcutedDO::getExcutedStatus, reqVO.getExcutedStatus())
+                .eqIfPresent(TaskExcutedDO::getStatus, reqVO.getStatus())
                 .eqIfPresent(TaskExcutedDO::getAssignee, reqVO.getAssignee())
                 .eqIfPresent(TaskExcutedDO::getAssigneeName, reqVO.getAssigneeName())
                 .eqIfPresent(TaskExcutedDO::getCreator, reqVO.getCreator())

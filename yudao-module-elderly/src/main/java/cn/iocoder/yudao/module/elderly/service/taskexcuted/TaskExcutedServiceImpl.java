@@ -115,4 +115,16 @@ public class TaskExcutedServiceImpl implements TaskExcutedService {
         return taskExcutedMapper.selectPage(pageReqVO);
     }
 
+
+    public void updateExcutedStatus(Long id, Integer status) {
+        // 校验存在
+        validateTaskExcutedExists(id);
+        // 更新状态
+        TaskExcutedDO updateObj = new TaskExcutedDO();
+        updateObj.setId(id);
+        updateObj.setStatus(status);
+        taskExcutedMapper.updateById(updateObj);
+    }
+
+
 }
