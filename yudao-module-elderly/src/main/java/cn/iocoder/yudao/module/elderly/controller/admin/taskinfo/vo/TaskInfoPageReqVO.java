@@ -36,6 +36,12 @@ public class TaskInfoPageReqVO extends PageParam {
     @Schema(description = "任务执行id")
     private Long executeId;
 
+    @Schema(description = "任务状态", example = "1")
+    private String status;
+
+    @Schema(description = "任务负责人")
+    private String assignee;
+    
     @Schema(description = "任务服务客户")
     private String serviceCustomer;
 

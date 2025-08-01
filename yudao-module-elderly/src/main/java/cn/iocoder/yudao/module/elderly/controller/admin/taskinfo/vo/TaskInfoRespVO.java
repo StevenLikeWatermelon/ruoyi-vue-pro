@@ -62,6 +62,10 @@ public class TaskInfoRespVO {
     private Boolean needTime;
 
 
+    @Schema(description = "任务状态", example = "1")
+    @ExcelProperty("任务状态")
+    private String status;
+
 
     @Schema(description = "备注", example = "你说的对")
     @ExcelProperty("备注")
