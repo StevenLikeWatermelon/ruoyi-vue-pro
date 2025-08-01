@@ -27,6 +27,7 @@ public interface ErrorCodeConstants {
     ErrorCode CHECK_IN_STATUS_ERROR = new ErrorCode(1_005_001_002, "老人入住信息已审核，不能删除");
     // ========== 任务节点管理 1_006_001_000 ==========
     ErrorCode TASK_NODE_NOT_EXISTS = new ErrorCode(1_006_001_000, "任务节点管理不存在");
+    ErrorCode TASK_INFO_START_TIME_END_TIME_NOT_NULL = new ErrorCode(1_007_001_001, "任务信息管理 startTime endTime 不能为空");
     // ========== 任务信息管理 1_007_001_000 ==========
     ErrorCode TASK_INFO_NOT_EXISTS = new ErrorCode(1_007_001_000, "任务信息管理不存在");
 

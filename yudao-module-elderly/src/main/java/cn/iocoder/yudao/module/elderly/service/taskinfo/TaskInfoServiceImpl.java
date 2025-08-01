@@ -19,6 +19,8 @@ import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionU
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.diffList;
 import static cn.iocoder.yudao.module.elderly.enums.ErrorCodeConstants.*;
+import cn.iocoder.yudao.module.elderly.dal.dataobject.tasknode.TaskNodeDO;
+import cn.iocoder.yudao.module.elderly.service.tasknode.TaskNodeService;
 
 /**
  * 任务信息管理 Service 实现类
@@ -31,6 +33,9 @@ public class TaskInfoServiceImpl implements TaskInfoService {
 
     @Resource
     private TaskInfoMapper taskInfoMapper;
+
+    @Resource
+    private TaskNodeService taskNodeService;
 
     @Override
     public Long createTaskInfo(TaskInfoSaveReqVO createReqVO) {
@@ -45,6 +50,26 @@ public class TaskInfoServiceImpl implements TaskInfoService {
     public void updateTaskInfo(TaskInfoSaveReqVO updateReqVO) {
         // 校验存在
         validateTaskInfoExists(updateReqVO.getId());
+        // 根据nodeId获取任务节点里的needTime
+        // TaskNodeDO taskNode = taskNodeService.getTaskNode(updateReqVO.getNodeId());
+        // if (taskNode == null) {
+        //     throw exception(TASK_NODE_NOT_EXISTS);
+        // }
+        // long needTime = taskNode.getNeedTime();
+        // if (needTime == 1) {
+        //     // 校验needTime
+        //     String startTime = updateReqVO.getStartTime();
+        //     String endTime = updateReqVO.getEndTime();
+        //     if (startTime == null || endTime == null) {
+        //         throw exception(TASK_INFO_START_TIME_END_TIME_NOT_NULL);
+        //     }
+        //     // 获取当前时间戳
+        //     long currentTime = System.currentTimeMillis();
+        //     // 校验startTime和endTime是否在当前时间之前
+        //     if (currentTime > Long.parseLong(startTime) || currentTime > Long.parseLong(endTime)) {
+        //         throw exception(TASK_INFO_START_TIME_END_TIME_BEFORE_CURRENT_TIME);
+        //     }
+        // }
         // 更新
         TaskInfoDO updateObj = BeanUtils.toBean(updateReqVO, TaskInfoDO.class);
         taskInfoMapper.updateById(updateObj);
