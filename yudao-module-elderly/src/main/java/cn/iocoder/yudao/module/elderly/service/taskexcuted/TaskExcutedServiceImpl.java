@@ -42,8 +42,8 @@ public class TaskExcutedServiceImpl implements TaskExcutedService {
 
     @Override
     public Long createTaskExcuted(TaskExcutedSaveReqVO createReqVO) {
-        // 插入，且插入时的状态status一定是未分配，// 0: '未分配',0: '已分配未执行',1: '已执行未完成',2: '已完成'
-        createReqVO.setStatus("0");
+        // 'not_allocated': '未分配',allocated_not_executed: '已分配未执行',executed_not_completed: '已执行未完成',completed: '已完成',
+        createReqVO.setExcutedStatus("not_allocated");
         TaskExcutedDO taskExcuted = BeanUtils.toBean(createReqVO, TaskExcutedDO.class);
         taskExcutedMapper.insert(taskExcuted);
         // 返回
@@ -54,9 +54,9 @@ public class TaskExcutedServiceImpl implements TaskExcutedService {
     public void updateTaskExcuted(TaskExcutedSaveReqVO updateReqVO) {
         // 校验存在
         validateTaskExcutedExists(updateReqVO.getId());
-        String status = updateReqVO.getStatus();
-        // 如果status为completed，表示任务执行完成，下面异步发送给领导审批
-        if (status.equals("completed")) {
+        String excutedStatus = updateReqVO.getExcutedStatus();
+        // 如果excutedStatus为completed，表示任务执行完成，下面异步发送给领导审批
+        if (excutedStatus.equals("completed")) {
             String name = updateReqVO.getName();
             // 发起 BPM 流程
             Map<String, Object> processInstanceVariables = new HashMap<>();

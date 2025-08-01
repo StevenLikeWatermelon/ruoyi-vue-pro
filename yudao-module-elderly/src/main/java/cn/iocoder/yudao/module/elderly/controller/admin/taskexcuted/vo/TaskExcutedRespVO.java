@@ -37,7 +37,7 @@ public class TaskExcutedRespVO {
 
     @Schema(description = "执行状态", example = "2")
     @ExcelProperty("执行状态")
-    private String status;
+    private String excutedStatus;
 
     @Schema(description = "执行负责人")
     @ExcelProperty("执行负责人")

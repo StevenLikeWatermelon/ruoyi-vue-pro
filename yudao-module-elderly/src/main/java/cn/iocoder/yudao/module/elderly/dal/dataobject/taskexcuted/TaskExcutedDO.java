@@ -60,7 +60,7 @@ public class TaskExcutedDO extends BaseDO {
     /**
      * 工作流实例状态
      */
-    private String status;
+    private String excutedStatus;
     /**
      * 执行负责人名称
      */
