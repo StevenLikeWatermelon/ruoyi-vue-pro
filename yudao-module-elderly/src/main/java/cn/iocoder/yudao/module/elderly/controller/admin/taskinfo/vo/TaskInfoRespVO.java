@@ -66,6 +66,8 @@ public class TaskInfoRespVO {
     @ExcelProperty("任务状态")
     private String status;
 
+    @Schema(description = "任务拍照列表")
+    private String photoList;
 
     @Schema(description = "备注", example = "你说的对")
     @ExcelProperty("备注")
